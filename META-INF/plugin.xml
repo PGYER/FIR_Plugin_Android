@@ -1,0 +1,60 @@
+<idea-plugin version="2">
+    <id>fir.im.plug.idea</id>
+    <name>FIR.im Uploader</name>
+    <version>0.2</version>
+    <vendor email="yh@fir.im" url="http://fir.im">FIR.im</vendor>
+
+    <description><![CDATA[
+
+      <b>FIR.im uploader</b>
+      </br>
+      <b>ONLY 2 STEPS To Distribute Beta Applications</b>
+      </br>
+      <b>FIR.im provides beta app distribution services for free in a fast and safe way by 2 steps: upload IPA/APK, download and install by a short URL . FIR is short for Fly It Remotely.</b>
+      ]]></description>
+
+    <change-notes><![CDATA[
+     v0.1 Add:    <br>
+        - apk upload
+     <br>
+
+
+     v0.2 change:   <br>
+        - App update apk versionName versionCode bug     <br>
+      ]]>
+    </change-notes>
+
+    <!-- please see http://confluence.jetbrains.net/display/IDEADEV/Build+Number+Ranges for description -->
+    <idea-version since-build="107.105"/>
+
+    <!-- please see http://confluence.jetbrains.net/display/IDEADEV/Plugin+Compatibility+with+IntelliJ+Platform+Products
+         on how to target different products -->
+
+    <!--This allow plugin to be installed on another IntelliJ Platform products-->
+    <depends>com.intellij.modules.lang</depends>
+    <!-- This tells the jetbrains plugin repository that the plugin uses the android jar -->
+    <depends>org.jetbrains.android</depends>
+
+    <application-components>
+
+        <!-- Add your application components here -->
+
+    </application-components>
+
+    <project-components>
+        <!-- Add your project components here -->
+    </project-components>
+
+    <actions>
+    </actions>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Lets us persist data using the KeyManager -->
+        <applicationService serviceImplementation="ro.catalin.prata.firuploader.controller.KeysManager"/>
+        <!-- Add your extensions here -->
+        <toolWindow id="FIR.im" secondary="true" anchor="top"  icon="icon.png"
+                    factoryClass="ro.catalin.prata.firuploader.view.main">
+        </toolWindow>
+    </extensions>
+
+</idea-plugin>
