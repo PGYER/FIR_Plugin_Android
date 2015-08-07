@@ -54,6 +54,12 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
     private JProgressBar progressBar;
     private JButton settingBtn;
     private JLabel tips;
+    private JLabel formHeader;
+    private JLabel formToken;
+    private JLabel formProject;
+    private JLabel formPath;
+    private JLabel formLink;
+    private JLabel formLog;
     private ToolWindow toolWindow;
     private String appVersion;
     private String appVersionCode;
@@ -62,13 +68,10 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
     private String appShort;
     public static main m;
     private String apkAbsolutePath;
+    public ro.catalin.prata.firuploader.Model.Document document;
     private Color COLOR_DARK_PURPLE = new Color(37, 172, 201);
     public main() {
-//        setTokenBtn.setBackground(COLOR_DARK_PURPLE);
-//        setTokenBtn.setOpaque(true);
-//        //setTokenBtn.setContentAreaFilled(true);
-//        settingBtn.setBackground(COLOR_DARK_PURPLE);
-//        uploadBtn.setBackground(COLOR_DARK_PURPLE);
+        initComponent();
         m = main.this;
         main.getInstance().setTest("start");
         main.getInstance().setTest("end");
@@ -398,7 +401,7 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
 
                 progressBar.setVisible(false);
                 uploadBtn.setEnabled(true);
-                uploadBtn.setText("Upload");
+                uploadBtn.setText(document.uploadBtn);
                 main.getInstance().tips.setText("Success");
                 uploadFinishNotice();
                 Thread th = new Thread(new Runnable() {
@@ -410,7 +413,7 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
                             Thread.sleep(2000);
                             main.getInstance().tips.setVisible(false);
                             main.getInstance().tips.repaint();
-                            Utils.postSuccessNoticeToSlack("#"+main.getInstance().appName+"#"+main.getInstance().appShort);
+                            Utils.postSuccessNoticeToSlack("#" + main.getInstance().appName + "#" + main.getInstance().appShort);
                         } catch (Exception e) {
                             Utils.postErrorNoticeTOSlack(e);
                             System.out.println(e);
@@ -472,6 +475,20 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
                 .createBalloon()
                 .show(RelativePoint.getNorthEastOf(statusBar.getComponent()),
                         Balloon.Position.above);
+    }
+
+
+    public void initComponent(){
+        document = new ro.catalin.prata.firuploader.Model.Document();
+        this.formHeader.setText(document.formHeader);
+        this.formLink.setText(document.formLink);
+        this.formLog.setText(document.formLog);
+        this.formPath.setText(document.formPath);
+        this.formToken.setText(document.formToken);
+        this.formProject.setText(document.formProject);
+        this.settingBtn.setText(document.settingBtn);
+        this.setTokenBtn.setText(document.setTokenBtn);
+        this.uploadBtn.setText(document.uploadBtn);
     }
 
 }
