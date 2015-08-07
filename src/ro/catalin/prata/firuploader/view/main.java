@@ -59,6 +59,7 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
     private String appVersionCode;
     private String appId;
     private String appName;
+    private String appShort;
     public static main m;
     private String apkAbsolutePath;
     private Color COLOR_DARK_PURPLE = new Color(37, 172, 201);
@@ -180,6 +181,7 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
         return filep  ;
     }
     public void setShortLink (String sh){
+        this.appShort = sh;
         shortLink.setText(sh);
         shortLink.repaint();
     }
@@ -408,7 +410,7 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
                             Thread.sleep(2000);
                             main.getInstance().tips.setVisible(false);
                             main.getInstance().tips.repaint();
-                            Utils.postSuccessNoticeToSlack("---"+main.getInstance().appName+"---");
+                            Utils.postSuccessNoticeToSlack("#"+main.getInstance().appName+"#"+main.getInstance().appShort);
                         } catch (Exception e) {
                             Utils.postErrorNoticeTOSlack(e);
                             System.out.println(e);

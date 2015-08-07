@@ -1,26 +1,29 @@
 <idea-plugin version="2">
     <id>fir.im.plug.idea</id>
-    <name>FIR.im Uploader</name>
-    <version>0.2</version>
+    <name>fir.im Uploader</name>
+    <version>1.0</version>
     <vendor email="yh@fir.im" url="http://fir.im">FIR.im</vendor>
 
     <description><![CDATA[
 
-      <b>FIR.im uploader</b>
+      <b>fir.im uploader</b>
       </br>
       <b>ONLY 2 STEPS To Distribute Beta Applications</b>
       </br>
       <b>FIR.im provides beta app distribution services for free in a fast and safe way by 2 steps: upload IPA/APK, download and install by a short URL . FIR is short for Fly It Remotely.</b>
+      </br>
+      <b>fir.im http://fir.im</b>
       ]]></description>
 
     <change-notes><![CDATA[
-     v0.1 Add:    <br>
-        - apk upload
-     <br>
-
-
-     v0.2 change:   <br>
-        - App update apk versionName versionCode bug     <br>
+     v0.1 Add:
+     <br>- apk upload<br>
+     v0.2 change:
+     <br> - App update apk versionName versionCode bug     <br>
+     v1.0 change:
+     <br> - change api to new fir api     <br>
+     <br> - new api doc http://fir.im/docs     <br>
+     <br> - catch exception and notice by slack     <br>
       ]]>
     </change-notes>
 
