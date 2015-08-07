@@ -21,6 +21,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.io.StringWriter;
 import java.io.PrintWriter;
+import java.util.Locale;
 
 
 public class Utils {
@@ -101,6 +102,25 @@ public class Utils {
         e.printStackTrace(new PrintWriter(writer,true));
 
         postNoticeTOSlack("#AndroidStudio#Error#"+writer.toString());
+    }
+
+    public static void local(){
+        Locale locale = Locale.getDefault();
+        System.out.println(locale.getLanguage());
+        System.out.println(locale.getCountry());
+
+        String language = locale.getLanguage();
+        String country = locale.getCountry();
+    }
+
+    public static boolean isZh(){
+       Locale locale = Locale.getDefault();
+       String language = locale.getLanguage();
+       if(language.equals("zh")){
+           return true;
+       }else{
+           return false ;
+       }
     }
 
 }

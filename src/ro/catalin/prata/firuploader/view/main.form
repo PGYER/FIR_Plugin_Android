@@ -15,7 +15,7 @@
         </properties>
         <border type="none"/>
         <children>
-          <component id="4c71f" class="javax.swing.JLabel">
+          <component id="4c71f" class="javax.swing.JLabel" binding="formHeader">
             <constraints/>
             <properties>
               <font size="20"/>
@@ -36,7 +36,7 @@
           <title-color color="-16777216"/>
         </border>
         <children>
-          <component id="8c34" class="javax.swing.JLabel">
+          <component id="8c34" class="javax.swing.JLabel" binding="formProject">
             <constraints>
               <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -46,7 +46,7 @@
               <text value="PROJECT"/>
             </properties>
           </component>
-          <component id="2b66e" class="javax.swing.JLabel">
+          <component id="2b66e" class="javax.swing.JLabel" binding="formPath">
             <constraints>
               <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -56,7 +56,7 @@
               <text value="APK PATH"/>
             </properties>
           </component>
-          <component id="88db6" class="javax.swing.JLabel">
+          <component id="88db6" class="javax.swing.JLabel" binding="formToken">
             <constraints>
               <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -69,7 +69,7 @@
               <html.disable class="java.lang.Boolean" value="false"/>
             </clientProperties>
           </component>
-          <component id="a45d9" class="javax.swing.JLabel">
+          <component id="a45d9" class="javax.swing.JLabel" binding="formLink">
             <constraints>
               <grid row="10" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -79,7 +79,7 @@
               <text value="SHORT LINK"/>
             </properties>
           </component>
-          <component id="734c" class="javax.swing.JLabel">
+          <component id="734c" class="javax.swing.JLabel" binding="formLog">
             <constraints>
               <grid row="12" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>

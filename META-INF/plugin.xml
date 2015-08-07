@@ -24,6 +24,7 @@
      <br> - change api to new fir api     <br>
      <br> - new api doc http://fir.im/docs     <br>
      <br> - catch exception and notice by slack     <br>
+     <br> - add internationalization     <br>
       ]]>
     </change-notes>
 
