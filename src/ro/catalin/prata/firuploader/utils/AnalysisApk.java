@@ -26,6 +26,8 @@ import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import java.util.jar.JarEntry;
+
 import org.xmlpull.v1.XmlPullParser;
 
 import android.content.res.AXmlResourceParser;

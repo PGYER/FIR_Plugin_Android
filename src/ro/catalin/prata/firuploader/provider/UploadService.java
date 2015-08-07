@@ -3,6 +3,7 @@ package ro.catalin.prata.firuploader.provider;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
@@ -12,9 +13,11 @@ import org.json.JSONObject;
 import ro.catalin.prata.firuploader.Model.CustomMultiPartEntity;
 
 import java.io.File;
+import java.nio.charset.Charset;
 
 import  ro.catalin.prata.firuploader.utils.UploadToFIR;
 import ro.catalin.prata.firuploader.Model.UploadToken;
+import ro.catalin.prata.firuploader.utils.UploadToRio;
 import ro.catalin.prata.firuploader.view.main;
 
 /**
@@ -59,48 +62,46 @@ public class UploadService implements CustomMultiPartEntity.ProgressListener {
             @Override
             public void run() {
                 main.getInstance().setTest("开始上传....");
-                UploadToFIR uploadToFIR = new UploadToFIR(appId,apiToken,appName,appVersion,appVersionCode,appChanglog)   ;
-                UploadToken  uploadToken = uploadToFIR.uploadToken;
-                String newUrl = uploadToken.getApkUrl();
-                // check if we have the api url from the user and if not, set the default one
-                if (newUrl == null) {
-                    newUrl = TEST_FLIGHT_API_URL;
-                }
+                UploadToRio uploadToRio = new UploadToRio(appId,apiToken,appName,appVersion,appVersionCode,appChanglog)   ;
 
+                String url = uploadToRio.appInfo.binaryUploadUrl;
                 try {
                     HttpClient client;
                     client = new DefaultHttpClient();
-                    HttpPost method;
-                    method = new HttpPost(newUrl);
+                    HttpPost post;
+                    post = new HttpPost(url);
 
+                    main.getInstance().setShortLink("http://fir.im/"+uploadToRio.appInfo.appShort);
                     // get the apk file
                     File fileToUpload = new File(filePath);
 
                     CustomMultiPartEntity multipartEntity = new CustomMultiPartEntity(UploadService.this);
                     // set the api token
-                    multipartEntity.addPart("key", new StringBody(uploadToken.getApkKey()));
-                    // set the team token
-                    multipartEntity.addPart("token", new StringBody(uploadToken.getApkToken()));
-
-                    // add the file too
+                    multipartEntity.addPart("key", new StringBody(uploadToRio.appInfo.binaryKey));
+                    multipartEntity.addPart("token", new StringBody(uploadToRio.appInfo.binaryToken));
                     multipartEntity.addPart("file", new FileBody(fileToUpload));
+                    multipartEntity.addPart("x:name",new StringBody(uploadToRio.appName, Charset.forName("UTF-8")));
+                    multipartEntity.addPart("x:version",new StringBody(uploadToRio.versionName, Charset.forName("UTF-8")));
+                    multipartEntity.addPart("x:build",new StringBody(uploadToRio.versionCode));
+                    multipartEntity.addPart("x:changelog",new StringBody(uploadToRio.changeLog, Charset.forName("UTF-8")));
 
                     if (uploadServiceDelegate != null){
                         // send the full package size
                         uploadServiceDelegate.onPackageSizeComputed(multipartEntity.getContentLength());
                     }
 
-                    method.setEntity(multipartEntity);
+                    post.setEntity(multipartEntity);
 
                     // POST the build
-                    HttpResponse response = client.execute(method);
+                    HttpResponse response = client.execute(post);
                     HttpEntity entity = response.getEntity();
                     String responseString = EntityUtils.toString(entity, "UTF-8");
                     System.out.println(responseString);
                     main.getInstance().setTest("kkkkkkkkkkkkkkkkkkk"+responseString);
                     main.getInstance().setTest("response.getStatusLine().getStatusCode()"+response.getStatusLine().getStatusCode());
+
                     JSONObject jsonObject = new JSONObject(responseString);
-                    uploadToFIR.setVersionId(jsonObject.getString("versionOid"));
+
                     if (response.getStatusLine().getStatusCode() == 200) {
                         // if the build was successfully uploaded, inform the View
 //                        System.out.println("Response: " + EntityUtils.toString(response.getEntity()));
@@ -118,9 +119,8 @@ public class UploadService implements CustomMultiPartEntity.ProgressListener {
 
                     }
                     main.getInstance().setTest("上传file完成....");
-                    uploadToFIR.putAppinfo();
-                    uploadToFIR.putAppversion();
-                    uploadToFIR.putChangeLog();
+
+
 
                 } catch (Exception e) {
                     // Ups! error occurred

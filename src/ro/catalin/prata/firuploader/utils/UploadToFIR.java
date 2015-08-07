@@ -92,6 +92,8 @@ public class UploadToFIR {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
     }
+
+
     public void putAppinfo() throws UnsupportedEncodingException {
         main.getInstance().setTest("更新APP信息....  start");
         HttpClient httpClient = new DefaultHttpClient() ;
@@ -99,6 +101,7 @@ public class UploadToFIR {
 
         // String putUrl = "http://fir.im/api/v2/app/"+this.appOid+"?name="+this.appName+"&source=fir.plug&token="+this.token   ;
         HttpPut httpPut = new HttpPut(putUrl);
+
 //        httpPut.addHeader("name",this.appName);
 //        httpPut.addHeader("source","fir.plug");
 //        httpPut.addHeader("token",this.token);
