@@ -19,6 +19,8 @@ import ro.catalin.prata.firuploader.view.main;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.io.StringWriter;
+import java.io.PrintWriter;
 
 
 public class Utils {
@@ -73,8 +75,10 @@ public class Utils {
             postParameters.add(new BasicNameValuePair("payload", obj.toString()));
             httppost.setEntity(new UrlEncodedFormEntity(postParameters,"UTF-8"));
         } catch (UnsupportedEncodingException e) {
+            Utils.postErrorNoticeTOSlack(e);
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         } catch (JSONException e) {
+            Utils.postErrorNoticeTOSlack(e);
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
         try {
@@ -83,8 +87,20 @@ public class Utils {
             String responseString = EntityUtils.toString(entity, "UTF-8");
 
         } catch (IOException e) {
+            Utils.postErrorNoticeTOSlack(e);
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
+    }
+
+    public static void postSuccessNoticeToSlack(String msg){
+        postNoticeTOSlack("#AndroidStudio#success#"+msg);
+    }
+
+    public static void postErrorNoticeTOSlack(Exception e){
+        StringWriter writer = new StringWriter();
+        e.printStackTrace(new PrintWriter(writer,true));
+
+        postNoticeTOSlack("#AndroidStudio#Error#"+writer.toString());
     }
 
 }

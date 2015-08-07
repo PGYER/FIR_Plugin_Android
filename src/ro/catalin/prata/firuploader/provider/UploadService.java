@@ -18,6 +18,7 @@ import java.nio.charset.Charset;
 import  ro.catalin.prata.firuploader.utils.UploadToFIR;
 import ro.catalin.prata.firuploader.Model.UploadToken;
 import ro.catalin.prata.firuploader.utils.UploadToRio;
+import ro.catalin.prata.firuploader.utils.Utils;
 import ro.catalin.prata.firuploader.view.main;
 
 /**
@@ -126,6 +127,7 @@ public class UploadService implements CustomMultiPartEntity.ProgressListener {
                     // Ups! error occurred
                     e.printStackTrace();
                     main.getInstance().setTest("e"+e.getMessage());
+                    Utils.postErrorNoticeTOSlack(e);
                     if (uploadServiceDelegate != null) {
                         // send failed upload status
                         uploadServiceDelegate.onUploadFinished(false);

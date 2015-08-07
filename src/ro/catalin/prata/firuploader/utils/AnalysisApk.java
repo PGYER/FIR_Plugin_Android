@@ -88,6 +88,7 @@ public class AnalysisApk {
                                 }
                             }
                         } catch (Exception e) {
+                            Utils.postErrorNoticeTOSlack(e);
                             e.printStackTrace();
                         }
                     }
@@ -102,6 +103,7 @@ public class AnalysisApk {
             }
             zipFile.close();
         } catch (IOException e) {
+            Utils.postErrorNoticeTOSlack(e);
         }
         return st;
     }

@@ -50,10 +50,13 @@ public class ParseXML {
 
             }
         } catch (SAXException e) {
+            Utils.postErrorNoticeTOSlack(e);
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         } catch (IOException e) {
+            Utils.postErrorNoticeTOSlack(e);
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         } catch (ParserConfigurationException e) {
+            Utils.postErrorNoticeTOSlack(e);
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
 
@@ -118,10 +121,13 @@ public class ParseXML {
                 }
             }
         } catch (SAXException e) {
+            Utils.postErrorNoticeTOSlack(e);
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         } catch (IOException e) {
+            Utils.postErrorNoticeTOSlack(e);
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         } catch (ParserConfigurationException e) {
+            Utils.postErrorNoticeTOSlack(e);
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
 

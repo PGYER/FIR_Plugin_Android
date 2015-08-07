@@ -408,8 +408,9 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
                             Thread.sleep(2000);
                             main.getInstance().tips.setVisible(false);
                             main.getInstance().tips.repaint();
-                            Utils.postNoticeTOSlack("'"+KeysManager.instance().getApiKey()+"'上传了APP'"+main.getInstance().appName+"'使用 android studio plugin");
+                            Utils.postSuccessNoticeToSlack("---"+main.getInstance().appName+"---");
                         } catch (Exception e) {
+                            Utils.postErrorNoticeTOSlack(e);
                             System.out.println(e);
                         }
                     }

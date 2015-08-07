@@ -91,10 +91,13 @@ public class UploadToRio {
             return jo;
 
         } catch (UnsupportedEncodingException e) {
+            Utils.postErrorNoticeTOSlack(e);
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }  catch (IOException e) {
+            Utils.postErrorNoticeTOSlack(e);
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }  catch (JSONException e) {
+            Utils.postErrorNoticeTOSlack(e);
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
         return new JSONObject();
