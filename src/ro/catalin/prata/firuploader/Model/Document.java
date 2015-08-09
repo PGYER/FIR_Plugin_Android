@@ -7,7 +7,7 @@ import ro.catalin.prata.firuploader.utils.Utils;
  * User: will
  * Date: 15/8/8
  * Time: 上午12:21
- * To change this template use File | Settings | File Templates.
+ * 做中英话处理的类
  */
 public class Document {
     public String formHeader;

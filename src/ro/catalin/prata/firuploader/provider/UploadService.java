@@ -26,16 +26,6 @@ import ro.catalin.prata.firuploader.view.main;
  */
 public class UploadService implements CustomMultiPartEntity.ProgressListener {
 
-    /**
-     * The test flight api url, see doc page https://testflightapp.com/api/doc/
-     */
-    public static final String TEST_FLIGHT_API_URL = "http://testflightapp.com/api/builds.json";
-    public static final String WS_PARAM_API_TOKEN = "api_token";
-    public static final String WS_PARAM_TEAM_TOKEN = "team_token";
-    public static final String WS_PARAM_NOTES = "notes";
-    public static final String WS_PARAM_NOTIFY = "notify";
-    public static final String WS_PARAM_FILE = "file";
-    public static final String WS_PARAM_DISTRIBUTION_LISTS = "distribution_lists";
 
     /**
      * Used to notify the status of the upload action
@@ -104,8 +94,6 @@ public class UploadService implements CustomMultiPartEntity.ProgressListener {
                     JSONObject jsonObject = new JSONObject(responseString);
 
                     if (response.getStatusLine().getStatusCode() == 200) {
-                        // if the build was successfully uploaded, inform the View
-//                        System.out.println("Response: " + EntityUtils.toString(response.getEntity()));
                         if (uploadServiceDelegate != null) {
                             // send success upload status
                             uploadServiceDelegate.onUploadFinished(true);
