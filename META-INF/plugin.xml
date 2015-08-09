@@ -39,6 +39,7 @@
     <!-- This tells the jetbrains plugin repository that the plugin uses the android jar -->
     <depends>org.jetbrains.android</depends>
 
+
     <application-components>
 
         <!-- Add your application components here -->

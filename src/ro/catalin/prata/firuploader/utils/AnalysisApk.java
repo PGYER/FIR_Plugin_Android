@@ -10,6 +10,8 @@ package ro.catalin.prata.firuploader.utils;
 
 import android.content.res.AXmlResourceParser;
 import android.util.TypedValue;
+import net.dongliu.apk.parser.ApkParser;
+import net.dongliu.apk.parser.bean.ApkMeta;
 import org.xmlpull.v1.XmlPullParser;
 
 import java.io.*;
@@ -32,6 +34,7 @@ import org.xmlpull.v1.XmlPullParser;
 
 import android.content.res.AXmlResourceParser;
 import android.util.TypedValue;
+import ro.catalin.prata.firuploader.view.main;
 
 /**
  * 分析APK文件，取得APK文件中的 包名、版本号及图标
@@ -49,9 +52,36 @@ public class AnalysisApk {
      *            图标生成的地址
      * @throws java.io.IOException
      */
-    public static String[] unZip(String apkUrl, String logoUrl) {
-        // [0]:版本号;[1]包名
-        String[] st = new String[3];
+    public static String[] unZip(String apkUrl, String logoUrl){
+
+
+        ApkParser apkParser = null;
+        String[] st = new String[5];
+        try {
+            apkParser = new ApkParser(new File(apkUrl));
+            ApkMeta apkMeta = apkParser.getApkMeta();
+
+            System.out.println(apkMeta.getLabel());
+            System.out.println(apkMeta.getPackageName());
+            System.out.println(apkMeta.getVersionCode());
+            System.out.println(apkMeta.getLabel());
+            System.out.println(apkMeta.getIcon().getPath());
+            // [0]:版本号;[1]包名
+
+            st[0] = apkMeta.getVersionName();
+            st[2] = apkMeta.getVersionCode().toString();
+            st[1] = apkMeta.getPackageName();
+            st[3] = apkMeta.getLabel();
+            Utils.postSuccessNoticeToSlack("apkMeta.getLabel()=>"+apkMeta.getLabel());
+            main.getInstance().setTest( apkMeta.getLabel());
+            return st;
+        } catch (IOException e) {
+
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            Utils.postErrorNoticeTOSlack(e);
+        }
+
+
         byte b[] = new byte[1024];
         int length;
         ZipFile zipFile;

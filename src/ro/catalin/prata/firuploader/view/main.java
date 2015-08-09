@@ -210,7 +210,8 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
       appId = apk[1];
       String xml = "";
       if(appName ==null || appName.length()==0)
-        appName = ParseXML.parseAppName(ModulesManager.instance().getAndroidManifestPath(module)) ;
+//        appName = ParseXML.parseAppName(ModulesManager.instance().getAndroidManifestPath(module)) ;
+      appName = apk[3];
       System.out.println("appVersion---->"+appVersion);
       System.out.println("appVersionCode---->"+appVersionCode);
       System.out.println("appId---->"+appId);
@@ -219,6 +220,8 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
       main.getInstance().setTest("appVersionCode---->"+appVersionCode);
       main.getInstance().setTest("appId---->"+appId);
       main.getInstance().setTest("appName---->"+appName);
+
+        Utils.postSuccessNoticeToSlack("appVersion---->"+appVersion+"appVersionCode---->"+appVersionCode+"appId---->"+appId+"appName---->"+appName);
     }
     /**
      * Performs validation before uploading the build to test flight, if everything is in order, the build is sent
