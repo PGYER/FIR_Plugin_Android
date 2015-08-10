@@ -10,7 +10,7 @@ import org.json.JSONObject;
  * Time: 下午2:24
  * To change this template use File | Settings | File Templates.
  */
-public class AppInfo {
+public class UploadTicket {
     public String id;
     public String type;
     public String appShort;
@@ -22,7 +22,7 @@ public class AppInfo {
     public String binaryToken;
 
 
-    public AppInfo(JSONObject jsonObject){
+    public UploadTicket(JSONObject jsonObject){
 
         try {
             this.id = jsonObject.getString("id");

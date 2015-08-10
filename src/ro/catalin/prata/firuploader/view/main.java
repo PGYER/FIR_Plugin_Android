@@ -17,12 +17,11 @@ import com.intellij.openapi.wm.*;
 import com.intellij.ui.awt.RelativePoint;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentFactory;
-import com.sun.javaws.jnl.XMLFormat;
+import ro.catalin.prata.firuploader.Model.Binary;
 import ro.catalin.prata.firuploader.controller.KeysManager;
 import ro.catalin.prata.firuploader.controller.ModulesManager;
 import ro.catalin.prata.firuploader.provider.UploadService;
 import ro.catalin.prata.firuploader.utils.AnalysisApk;
-import ro.catalin.prata.firuploader.utils.ParseXML;
 import ro.catalin.prata.firuploader.utils.Utils;
 
 import javax.swing.*;
@@ -68,11 +67,13 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
     private String appShort;
     public static main m;
     private String apkAbsolutePath;
+    public Binary binary;
     public ro.catalin.prata.firuploader.Model.Document document;
     private Color COLOR_DARK_PURPLE = new Color(37, 172, 201);
     public main() {
         initComponent();
         m = main.this;
+        binary = new Binary();
         main.getInstance().setTest("start");
         main.getInstance().setTest("end");
         progressBar.setVisible(false);
@@ -117,6 +118,7 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
                     filePath = "";
                 }
                 apkAbsolutePath = filePath;
+                binary.initPath(apkAbsolutePath);
 
                 apkPath.setText(splitPath(filePath));
 
@@ -163,6 +165,7 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
                         apkAbsolutePath = filePath;
 
                         apkPath.setText(splitPath(filePath));
+                        binary.initPath(apkAbsolutePath);
 
                         // save the file path
                         KeysManager.instance().setApkFilePath(filePath);
@@ -201,27 +204,10 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
 
 
       String[] apk = new String[3];
-
       if(apkAbsolutePath != null){
-          apk =  AnalysisApk.unZip(apkAbsolutePath,"") ;
+           binary.initPath(apkAbsolutePath);
       }
-      appVersion = apk[0] ;
-      appVersionCode = apk[2] ;
-      appId = apk[1];
-      String xml = "";
-      if(appName ==null || appName.length()==0)
-//        appName = ParseXML.parseAppName(ModulesManager.instance().getAndroidManifestPath(module)) ;
-      appName = apk[3];
-      System.out.println("appVersion---->"+appVersion);
-      System.out.println("appVersionCode---->"+appVersionCode);
-      System.out.println("appId---->"+appId);
-      System.out.println("appName---->"+appName);
-      main.getInstance().setTest("appVersion---->"+appVersion);
-      main.getInstance().setTest("appVersionCode---->"+appVersionCode);
-      main.getInstance().setTest("appId---->"+appId);
-      main.getInstance().setTest("appName---->"+appName);
 
-        Utils.postSuccessNoticeToSlack("appVersion---->"+appVersion+"appVersionCode---->"+appVersionCode+"appId---->"+appId+"appName---->"+appName);
     }
     /**
      * Performs validation before uploading the build to test flight, if everything is in order, the build is sent
@@ -239,8 +225,8 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
             Messages.showErrorDialog("Project no apk.",
                     "Illegal apk");
 
-        }  else if(appName == null){
-             appName = Messages.showInputDialog(ProjectManager.getInstance().getOpenProjects()[0],
+        }  else if(binary.name == null){
+             binary.name = Messages.showInputDialog(ProjectManager.getInstance().getOpenProjects()[0],
                     "<HTML>please input app name</HTML>",
                     "the name of apk", null, "", null);
 
@@ -257,6 +243,7 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
      * Uploads the build to test flight, it updates also the UI
      */
     public void uploadBuild() {
+
         progressBar.setValue(0);
         progressBar.setVisible(true);
         uploadBtn.setEnabled(false);
@@ -266,10 +253,7 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
 
         // upload the build
         new UploadService().sendBuild(null, apkAbsolutePath, KeysManager.instance().getApiKey(),
-                appVersion,
-                appVersionCode,
-                appId,
-                appName ,
+                binary,
                 changeLogTa.getText(),
                 main.this);
 
@@ -303,6 +287,7 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
             apkAbsolutePath = filePath;
 
             apkPath.setText(splitPath(filePath));
+            binary.initPath(apkAbsolutePath);
 
         } else {
 
@@ -321,6 +306,7 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
             apkAbsolutePath = filePath;
 
             apkPath.setText(splitPath(filePath));
+            binary.initPath(apkAbsolutePath);
         }
 
         // set the model of the modules
@@ -355,6 +341,7 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
                     filePath = "";
                 }
                 apkAbsolutePath = filePath;
+                binary.initPath(apkAbsolutePath);
 
                 apkPath.setText(splitPath(filePath));
 
