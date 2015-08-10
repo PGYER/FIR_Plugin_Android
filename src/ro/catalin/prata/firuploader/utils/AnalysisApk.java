@@ -10,6 +10,8 @@ package ro.catalin.prata.firuploader.utils;
 
 import android.content.res.AXmlResourceParser;
 import android.util.TypedValue;
+import net.dongliu.apk.parser.ApkParser;
+import net.dongliu.apk.parser.bean.ApkMeta;
 import org.xmlpull.v1.XmlPullParser;
 
 import java.io.*;
@@ -32,6 +34,7 @@ import org.xmlpull.v1.XmlPullParser;
 
 import android.content.res.AXmlResourceParser;
 import android.util.TypedValue;
+import ro.catalin.prata.firuploader.view.main;
 
 /**
  * 分析APK文件，取得APK文件中的 包名、版本号及图标
@@ -49,8 +52,9 @@ public class AnalysisApk {
      *            图标生成的地址
      * @throws java.io.IOException
      */
-    public static String[] unZip(String apkUrl, String logoUrl) {
-        // [0]:版本号;[1]包名
+    public static String[] unZip(String apkUrl, String logoUrl){
+
+
         String[] st = new String[3];
         byte b[] = new byte[1024];
         int length;

@@ -10,11 +10,13 @@ import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
+import ro.catalin.prata.firuploader.Model.Binary;
 import ro.catalin.prata.firuploader.Model.CustomMultiPartEntity;
 
 import java.io.File;
 import java.nio.charset.Charset;
 
+import ro.catalin.prata.firuploader.utils.SearchFile;
 import  ro.catalin.prata.firuploader.utils.UploadToFIR;
 import ro.catalin.prata.firuploader.Model.UploadToken;
 import ro.catalin.prata.firuploader.utils.UploadToRio;
@@ -37,15 +39,11 @@ public class UploadService implements CustomMultiPartEntity.ProgressListener {
      * @param url
      * @param filePath
      * @param apiToken
-     * @param appVersion
-     * @param appVersionCode
-     * @param appId
-     * @param appName
+     * @param binary
      * @param appChanglog
      * @param delegate
      */
-    public void sendBuild(final String url, final String filePath, final String apiToken, final String appVersion, final String appVersionCode,
-                          final String appId,final String appName,final String appChanglog, UploadServiceDelegate delegate) {
+    public void sendBuild(final String url, final String filePath, final String apiToken, final Binary binary,final String appChanglog, UploadServiceDelegate delegate) {
 
         uploadServiceDelegate = delegate;
 
@@ -53,23 +51,63 @@ public class UploadService implements CustomMultiPartEntity.ProgressListener {
             @Override
             public void run() {
                 main.getInstance().setTest("开始上传....");
-                UploadToRio uploadToRio = new UploadToRio(appId,apiToken,appName,appVersion,appVersionCode,appChanglog)   ;
+                UploadToRio uploadToRio = new UploadToRio(binary.bundleId,apiToken,binary.name,binary.versionName,binary.versionCode,appChanglog)   ;
 
-                String url = uploadToRio.appInfo.binaryUploadUrl;
+                String url = uploadToRio.uploadTicket.binaryUploadUrl;
                 try {
                     HttpClient client;
                     client = new DefaultHttpClient();
                     HttpPost post;
                     post = new HttpPost(url);
 
-                    main.getInstance().setShortLink("http://fir.im/"+uploadToRio.appInfo.appShort);
+                    main.getInstance().setShortLink("http://fir.im/"+uploadToRio.uploadTicket.appShort);
+
+                    /*****************************************upload icon***********************************************/
+                    SearchFile searchFile = new SearchFile(filePath);
+                    if(!binary.icon.isEmpty()){
+                        File iconToUpload = searchFile.query(binary.icon);
+                        CustomMultiPartEntity iconMultipartEntity = new CustomMultiPartEntity(UploadService.this);
+                        // set the api token
+                        iconMultipartEntity.addPart("key", new StringBody(uploadToRio.uploadTicket.iconKey));
+                        iconMultipartEntity.addPart("token", new StringBody(uploadToRio.uploadTicket.iconToken));
+                        iconMultipartEntity.addPart("file", new FileBody(iconToUpload));
+
+                        if (uploadServiceDelegate != null){
+                            // send the full package size
+                            uploadServiceDelegate.onPackageSizeComputed(iconMultipartEntity.getContentLength());
+                        }
+
+                        post.setEntity(iconMultipartEntity);
+
+                        // POST the build
+                        HttpResponse iconResponse = client.execute(post);
+                        HttpEntity iconEntity = iconResponse.getEntity();
+                        String iconResponseString = EntityUtils.toString(iconEntity, "UTF-8");
+                        System.out.println(iconResponseString);
+                        main.getInstance().setTest("kkkkkkkkkkkkkkkkkkk"+iconResponseString);
+                        main.getInstance().setTest("response.getStatusLine().getStatusCode()"+iconResponse.getStatusLine().getStatusCode());
+
+                        JSONObject iconJsonObject = new JSONObject(iconResponseString);
+
+                        if (iconResponse.getStatusLine().getStatusCode() == 200) {
+                            if (uploadServiceDelegate != null) {
+                                // send success upload status
+                               main.getInstance().setTips("Icon upload success");
+                            }
+
+                        }
+                        main.getInstance().setTest("上传icon完成....");
+                    }
+
+
+                    /*****************************************upload file***********************************************/
                     // get the apk file
                     File fileToUpload = new File(filePath);
 
                     CustomMultiPartEntity multipartEntity = new CustomMultiPartEntity(UploadService.this);
                     // set the api token
-                    multipartEntity.addPart("key", new StringBody(uploadToRio.appInfo.binaryKey));
-                    multipartEntity.addPart("token", new StringBody(uploadToRio.appInfo.binaryToken));
+                    multipartEntity.addPart("key", new StringBody(uploadToRio.uploadTicket.binaryKey));
+                    multipartEntity.addPart("token", new StringBody(uploadToRio.uploadTicket.binaryToken));
                     multipartEntity.addPart("file", new FileBody(fileToUpload));
                     multipartEntity.addPart("x:name",new StringBody(uploadToRio.appName, Charset.forName("UTF-8")));
                     multipartEntity.addPart("x:version",new StringBody(uploadToRio.versionName, Charset.forName("UTF-8")));
@@ -124,6 +162,10 @@ public class UploadService implements CustomMultiPartEntity.ProgressListener {
 
             }
         }).start();
+
+    }
+
+    public void iconUpload(){
 
     }
 
