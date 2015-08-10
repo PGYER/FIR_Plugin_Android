@@ -64,57 +64,49 @@ public class Utils {
         };
     }
 
-    public static void postNoticeTOSlack(String msg){
-        HttpClient httpClient = new DefaultHttpClient() ;
-        String postUrl = "https://hooks.slack.com/services/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"  ;
-        HttpPost httppost = new HttpPost(postUrl);
-        HttpResponse response = null;
-        try {
-            ArrayList<BasicNameValuePair> postParameters = new ArrayList<BasicNameValuePair>();
-            JSONObject obj = new JSONObject();
-            obj.append("text",msg) ;
-            postParameters.add(new BasicNameValuePair("payload", obj.toString()));
-            httppost.setEntity(new UrlEncodedFormEntity(postParameters,"UTF-8"));
-        } catch (UnsupportedEncodingException e) {
-            Utils.postErrorNoticeTOSlack(e);
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (JSONException e) {
-            Utils.postErrorNoticeTOSlack(e);
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
-        try {
-            response = httpClient.execute(httppost);
-            HttpEntity entity = response.getEntity();
-            String responseString = EntityUtils.toString(entity, "UTF-8");
+    public static void postNoticeTOSlack(final String msg){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                HttpClient httpClient = new DefaultHttpClient() ;
+                String postUrl = "https://hooks.slack.com/services/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"  ;
+                HttpPost httppost = new HttpPost(postUrl);
+                HttpResponse response = null;
+                try {
+                    ArrayList<BasicNameValuePair> postParameters = new ArrayList<BasicNameValuePair>();
+                    JSONObject obj = new JSONObject();
+                    obj.append("text",msg) ;
+                    postParameters.add(new BasicNameValuePair("payload", obj.toString()));
+                    httppost.setEntity(new UrlEncodedFormEntity(postParameters,"UTF-8"));
+                } catch (UnsupportedEncodingException e) {
+                    Utils.postErrorNoticeTOSlack(e);
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                } catch (JSONException e) {
+                    Utils.postErrorNoticeTOSlack(e);
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+                try {
+                    response = httpClient.execute(httppost);
+                    HttpEntity entity = response.getEntity();
+                    String responseString = EntityUtils.toString(entity, "UTF-8");
 
-        } catch (IOException e) {
-            Utils.postErrorNoticeTOSlack(e);
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
+                } catch (IOException e) {
+                    Utils.postErrorNoticeTOSlack(e);
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+            }
+        }).start();
     }
 
     public static void postSuccessNoticeToSlack(final String msg){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                //To change body of implemented methods use File | Settings | File Templates.
-                postNoticeTOSlack("#AndroidStudio#success#"+msg);
-            }
-        }).start();
-
+        postNoticeTOSlack("#AndroidStudio#success#"+msg);
     }
 
     public static void postErrorNoticeTOSlack(final Exception e){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                //To change body of implemented methods use File | Settings | File Templates.
-                StringWriter writer = new StringWriter();
-                e.printStackTrace(new PrintWriter(writer,true));
+        StringWriter writer = new StringWriter();
+        e.printStackTrace(new PrintWriter(writer,true));
 
-                postNoticeTOSlack("#AndroidStudio#Error#"+writer.toString());
-            }
-        }).start();
+        postNoticeTOSlack("#AndroidStudio#Error#"+writer.toString());
 
     }
 
