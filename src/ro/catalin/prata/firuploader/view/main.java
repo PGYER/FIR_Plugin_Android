@@ -91,7 +91,7 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
                 //To change body of implemented methods use File | Settings | File Templates.
                 // open an input dialog for the api key
                 String apiKey = Messages.showInputDialog(ProjectManager.getInstance().getOpenProjects()[0],
-                        "<HTML>get FIR.im TOKEN <a href=\"http://fir.im/dev/api\">here</a>.</HTML>",
+                        "<HTML>get FIR.im TOKEN <a href=\"http://fir.im/user/info\">here</a>.</HTML>",
                         "Uploading TOKEN", null, KeysManager.instance().getApiKey(), null);
 
                 // save the api key after a minor validation
@@ -114,7 +114,7 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
                     filePath = "";
                 // the file was selected so add it to the text field
                 File file = new File(filePath) ;
-                if(!file.exists())    {
+                if(!file.exists()  || filePath.toLowerCase().indexOf(".apk")<0)    {
                     filePath = "";
                 }
                 apkAbsolutePath = filePath;
@@ -158,7 +158,7 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
 
                         // the file was selected so add it to the text field
                         File file = new File(filePath) ;
-                        if(!file.exists())    {
+                        if(!file.exists() || filePath.toLowerCase().indexOf(".apk")<0 )    {
                             filePath = "";
                         }
 
@@ -221,18 +221,18 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
         String mm = apkPath.getText();
         if (KeysManager.instance().getApiKey() == null) {
 
-            Messages.showErrorDialog("Please set FIR.im token",
-                    "API TOKEN Illegal");
+            Messages.showErrorDialog("请设置fir.im的api token",
+                    "api token 不合法");
 
         } else if (apkAbsolutePath == null || apkAbsolutePath.length() < 3) {
 
-            Messages.showErrorDialog("Project no apk.",
-                    "Illegal apk");
+            Messages.showErrorDialog("工程没有发现apk文件请单击设置来设置apk路径",
+                    "apk文件不合法");
 
         }  else if(binary.name == null){
              binary.name = Messages.showInputDialog(ProjectManager.getInstance().getOpenProjects()[0],
-                    "<HTML>please input app name</HTML>",
-                    "the name of apk", null, "", null);
+                    "<HTML>请设置apk应用名称</HTML>",
+                    "apk的名称", null, "", null);
 
         } else {
 
@@ -284,7 +284,7 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
                 filePath = "";
             // the file was selected so add it to the text field
             File file = new File(filePath) ;
-            if(!file.exists())    {
+            if(!file.exists() || filePath.toLowerCase().indexOf(".apk") < 0)    {
                 filePath = "";
             }
 
@@ -341,7 +341,7 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
                 if(filePath == null)
                     filePath = "";
                 File file = new File(filePath) ;
-                if(!file.exists())    {
+                if(!file.exists() || filePath.toLowerCase().indexOf(".apk")< 0)    {
                     filePath = "";
                 }
                 apkAbsolutePath = filePath;
@@ -389,7 +389,8 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
 
                 if (!finishedSuccessful) {
 
-                    Messages.showErrorDialog("upload error", "upload error");
+                    Messages.showErrorDialog("上传失败！有问题请联系dev@fir.im", "上传失败！有问题请联系dev@fir.im");
+                    return;
 
                 }
 
@@ -397,6 +398,7 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
                 uploadBtn.setEnabled(true);
                 uploadBtn.setText(document.uploadBtn);
                 main.getInstance().tips.setText("File upload success");
+                changeLogTa.setText("");
                 uploadFinishNotice();
                 Thread th = new Thread(new Runnable() {
                     @Override
@@ -454,7 +456,7 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
 
 
         JBPopupFactory.getInstance()
-                .createHtmlTextBalloonBuilder("upload finish <a href='"+shortLink.getText()+"'>"+shortLink.getText()+"</a> 打开链接去查看.",
+                .createHtmlTextBalloonBuilder("上传成功 <a href='"+shortLink.getText()+"'>"+shortLink.getText()+"</a> 打开链接去查看.",
                         MessageType.INFO, new HyperlinkListener() {
                     @Override
                     public void hyperlinkUpdate(HyperlinkEvent e) {
