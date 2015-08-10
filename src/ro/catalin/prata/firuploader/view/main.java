@@ -209,6 +209,10 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
       }
 
     }
+
+    public void setTips(String content){
+        main.getInstance().tips.setText(content);
+    }
     /**
      * Performs validation before uploading the build to test flight, if everything is in order, the build is sent
      */
@@ -392,7 +396,7 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
                 progressBar.setVisible(false);
                 uploadBtn.setEnabled(true);
                 uploadBtn.setText(document.uploadBtn);
-                main.getInstance().tips.setText("Success");
+                main.getInstance().tips.setText("File upload success");
                 uploadFinishNotice();
                 Thread th = new Thread(new Runnable() {
                     @Override

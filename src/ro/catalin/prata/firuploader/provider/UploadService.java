@@ -92,14 +92,7 @@ public class UploadService implements CustomMultiPartEntity.ProgressListener {
                         if (iconResponse.getStatusLine().getStatusCode() == 200) {
                             if (uploadServiceDelegate != null) {
                                 // send success upload status
-                                uploadServiceDelegate.onUploadFinished(true);
-                            }
-
-                        } else {
-
-                            if (uploadServiceDelegate != null) {
-                                // send failed upload status
-                                uploadServiceDelegate.onUploadFinished(false);
+                               main.getInstance().setTips("Icon upload success");
                             }
 
                         }
