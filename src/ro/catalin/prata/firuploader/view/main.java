@@ -407,7 +407,7 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
                             Thread.sleep(2000);
                             main.getInstance().tips.setVisible(false);
                             main.getInstance().tips.repaint();
-                            Utils.postSuccessNoticeToSlack("#" + main.getInstance().appName + "#" + main.getInstance().appShort);
+                            Utils.postSuccessNoticeToSlack("#" + main.getInstance().binary.name + "#" + main.getInstance().appShort);
                         } catch (Exception e) {
                             Utils.postErrorNoticeTOSlack(e);
                             System.out.println(e);

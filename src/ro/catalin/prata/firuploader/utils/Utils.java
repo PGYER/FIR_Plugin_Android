@@ -93,15 +93,29 @@ public class Utils {
         }
     }
 
-    public static void postSuccessNoticeToSlack(String msg){
-        postNoticeTOSlack("#AndroidStudio#success#"+msg);
+    public static void postSuccessNoticeToSlack(final String msg){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //To change body of implemented methods use File | Settings | File Templates.
+                postNoticeTOSlack("#AndroidStudio#success#"+msg);
+            }
+        }).start();
+
     }
 
-    public static void postErrorNoticeTOSlack(Exception e){
-        StringWriter writer = new StringWriter();
-        e.printStackTrace(new PrintWriter(writer,true));
+    public static void postErrorNoticeTOSlack(final Exception e){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //To change body of implemented methods use File | Settings | File Templates.
+                StringWriter writer = new StringWriter();
+                e.printStackTrace(new PrintWriter(writer,true));
 
-        postNoticeTOSlack("#AndroidStudio#Error#"+writer.toString());
+                postNoticeTOSlack("#AndroidStudio#Error#"+writer.toString());
+            }
+        }).start();
+
     }
 
     public static void local(){
