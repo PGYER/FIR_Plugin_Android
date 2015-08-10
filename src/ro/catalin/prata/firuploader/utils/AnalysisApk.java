@@ -55,7 +55,6 @@ public class AnalysisApk {
     public static String[] unZip(String apkUrl, String logoUrl){
 
 
-        ApkParser apkParser = null;
         String[] st = new String[3];
         byte b[] = new byte[1024];
         int length;

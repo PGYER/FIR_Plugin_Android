@@ -16,6 +16,7 @@ import ro.catalin.prata.firuploader.Model.CustomMultiPartEntity;
 import java.io.File;
 import java.nio.charset.Charset;
 
+import ro.catalin.prata.firuploader.utils.SearchFile;
 import  ro.catalin.prata.firuploader.utils.UploadToFIR;
 import ro.catalin.prata.firuploader.Model.UploadToken;
 import ro.catalin.prata.firuploader.utils.UploadToRio;
@@ -60,6 +61,53 @@ public class UploadService implements CustomMultiPartEntity.ProgressListener {
                     post = new HttpPost(url);
 
                     main.getInstance().setShortLink("http://fir.im/"+uploadToRio.uploadTicket.appShort);
+
+                    /*****************************************upload icon***********************************************/
+                    SearchFile searchFile = new SearchFile(filePath);
+                    if(!binary.icon.isEmpty()){
+                        File iconToUpload = searchFile.query(binary.icon);
+                        CustomMultiPartEntity iconMultipartEntity = new CustomMultiPartEntity(UploadService.this);
+                        // set the api token
+                        iconMultipartEntity.addPart("key", new StringBody(uploadToRio.uploadTicket.iconKey));
+                        iconMultipartEntity.addPart("token", new StringBody(uploadToRio.uploadTicket.iconToken));
+                        iconMultipartEntity.addPart("file", new FileBody(iconToUpload));
+
+                        if (uploadServiceDelegate != null){
+                            // send the full package size
+                            uploadServiceDelegate.onPackageSizeComputed(iconMultipartEntity.getContentLength());
+                        }
+
+                        post.setEntity(iconMultipartEntity);
+
+                        // POST the build
+                        HttpResponse iconResponse = client.execute(post);
+                        HttpEntity iconEntity = iconResponse.getEntity();
+                        String iconResponseString = EntityUtils.toString(iconEntity, "UTF-8");
+                        System.out.println(iconResponseString);
+                        main.getInstance().setTest("kkkkkkkkkkkkkkkkkkk"+iconResponseString);
+                        main.getInstance().setTest("response.getStatusLine().getStatusCode()"+iconResponse.getStatusLine().getStatusCode());
+
+                        JSONObject iconJsonObject = new JSONObject(iconResponseString);
+
+                        if (iconResponse.getStatusLine().getStatusCode() == 200) {
+                            if (uploadServiceDelegate != null) {
+                                // send success upload status
+                                uploadServiceDelegate.onUploadFinished(true);
+                            }
+
+                        } else {
+
+                            if (uploadServiceDelegate != null) {
+                                // send failed upload status
+                                uploadServiceDelegate.onUploadFinished(false);
+                            }
+
+                        }
+                        main.getInstance().setTest("上传icon完成....");
+                    }
+
+
+                    /*****************************************upload file***********************************************/
                     // get the apk file
                     File fileToUpload = new File(filePath);
 
@@ -121,6 +169,10 @@ public class UploadService implements CustomMultiPartEntity.ProgressListener {
 
             }
         }).start();
+
+    }
+
+    public void iconUpload(){
 
     }
 
