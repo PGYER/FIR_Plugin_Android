@@ -1,7 +1,7 @@
 <idea-plugin version="2">
     <id>fir.im.plug.idea</id>
     <name>fir.im upload</name>
-    <version>1.0</version>
+    <version>1.2</version>
     <vendor email="yh@fir.im" url="http://fir.im">FIR.im</vendor>
 
     <description><![CDATA[
@@ -25,6 +25,12 @@
      <br> - new api doc http://fir.im/docs     <br>
      <br> - catch exception and notice by slack     <br>
      <br> - add internationalization     <br>
+     v1.1 change:
+     <br> - parse apk name     <br>
+     <br> - new api doc http://fir.im/docs     <br>
+     v1.2 change:
+     <br> - upload icon     <br>
+     <br> - new api doc http://fir.im/docs     <br>
       ]]>
     </change-notes>
 
