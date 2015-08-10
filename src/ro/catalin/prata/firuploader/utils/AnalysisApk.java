@@ -56,32 +56,7 @@ public class AnalysisApk {
 
 
         ApkParser apkParser = null;
-        String[] st = new String[5];
-        try {
-            apkParser = new ApkParser(new File(apkUrl));
-            ApkMeta apkMeta = apkParser.getApkMeta();
-
-            System.out.println(apkMeta.getLabel());
-            System.out.println(apkMeta.getPackageName());
-            System.out.println(apkMeta.getVersionCode());
-            System.out.println(apkMeta.getLabel());
-            System.out.println(apkMeta.getIcon().getPath());
-            // [0]:版本号;[1]包名
-
-            st[0] = apkMeta.getVersionName();
-            st[2] = apkMeta.getVersionCode().toString();
-            st[1] = apkMeta.getPackageName();
-            st[3] = apkMeta.getLabel();
-            Utils.postSuccessNoticeToSlack("apkMeta.getLabel()=>"+apkMeta.getLabel());
-            main.getInstance().setTest( apkMeta.getLabel());
-            return st;
-        } catch (IOException e) {
-
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-            Utils.postErrorNoticeTOSlack(e);
-        }
-
-
+        String[] st = new String[3];
         byte b[] = new byte[1024];
         int length;
         ZipFile zipFile;
