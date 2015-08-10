@@ -91,8 +91,8 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
                 //To change body of implemented methods use File | Settings | File Templates.
                 // open an input dialog for the api key
                 String apiKey = Messages.showInputDialog(ProjectManager.getInstance().getOpenProjects()[0],
-                        "<HTML>get FIR.im TOKEN <a href=\"http://fir.im/user/info\">here</a>.</HTML>",
-                        "Uploading TOKEN", null, KeysManager.instance().getApiKey(), null);
+                        "<HTML>获取api token <a href=\"http://fir.im/user/info\">here</a>.</HTML>",
+                        "api token", null, KeysManager.instance().getApiKey(), null);
 
                 // save the api key after a minor validation
                 if (apiKey != null && apiKey.length() > 3) {
@@ -390,6 +390,12 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
                 if (!finishedSuccessful) {
 
                     Messages.showErrorDialog("上传失败！有问题请联系dev@fir.im", "上传失败！有问题请联系dev@fir.im");
+                    progressBar.setVisible(false);
+                    uploadBtn.setEnabled(true);
+                    uploadBtn.setText(document.uploadBtn);
+                    changeLogTa.setText("");
+                    main.getInstance().tips.setVisible(false);
+                    main.getInstance().tips.repaint();
                     return;
 
                 }
