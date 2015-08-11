@@ -16,11 +16,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import ro.catalin.prata.firuploader.view.main;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
+import java.math.BigInteger;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
+import java.security.MessageDigest;
 import java.util.ArrayList;
-import java.io.StringWriter;
-import java.io.PrintWriter;
 import java.util.Locale;
 
 
@@ -127,6 +128,33 @@ public class Utils {
        }else{
            return false ;
        }
+    }
+
+    public static String getMd5(String path){
+        String value = null;
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            FileInputStream fis = new FileInputStream(path);
+
+            byte[] dataBytes = new byte[1024];
+
+            int nRead = 0;
+            while ((nRead = fis.read(dataBytes)) != -1) {
+                md.update(dataBytes, 0, nRead);
+            };
+            byte[] mBytes = md.digest();
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < mBytes.length; i++) {
+                sb.append(Integer.toString((mBytes[i] & 0xff) + 0x100, 16).substring(1));
+            }
+            System.out.println("Digest(in hex format):: " + sb.toString());
+            fis.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+
+        }
+        return value;
     }
 
 }
