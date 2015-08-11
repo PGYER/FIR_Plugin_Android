@@ -16,11 +16,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import ro.catalin.prata.firuploader.view.main;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
+import java.math.BigInteger;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
+import java.security.MessageDigest;
 import java.util.ArrayList;
-import java.io.StringWriter;
-import java.io.PrintWriter;
 import java.util.Locale;
 
 
@@ -64,44 +65,50 @@ public class Utils {
         };
     }
 
-    public static void postNoticeTOSlack(String msg){
-        HttpClient httpClient = new DefaultHttpClient() ;
-        String postUrl = "https://hooks.slack.com/services/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"  ;
-        HttpPost httppost = new HttpPost(postUrl);
-        HttpResponse response = null;
-        try {
-            ArrayList<BasicNameValuePair> postParameters = new ArrayList<BasicNameValuePair>();
-            JSONObject obj = new JSONObject();
-            obj.append("text",msg) ;
-            postParameters.add(new BasicNameValuePair("payload", obj.toString()));
-            httppost.setEntity(new UrlEncodedFormEntity(postParameters,"UTF-8"));
-        } catch (UnsupportedEncodingException e) {
-            Utils.postErrorNoticeTOSlack(e);
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (JSONException e) {
-            Utils.postErrorNoticeTOSlack(e);
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
-        try {
-            response = httpClient.execute(httppost);
-            HttpEntity entity = response.getEntity();
-            String responseString = EntityUtils.toString(entity, "UTF-8");
+    public static void postNoticeTOSlack(final String msg){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                HttpClient httpClient = new DefaultHttpClient() ;
+                String postUrl = "https://hooks.slack.com/services/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"  ;
+                HttpPost httppost = new HttpPost(postUrl);
+                HttpResponse response = null;
+                try {
+                    ArrayList<BasicNameValuePair> postParameters = new ArrayList<BasicNameValuePair>();
+                    JSONObject obj = new JSONObject();
+                    obj.append("text",msg) ;
+                    postParameters.add(new BasicNameValuePair("payload", obj.toString()));
+                    httppost.setEntity(new UrlEncodedFormEntity(postParameters,"UTF-8"));
+                } catch (UnsupportedEncodingException e) {
+                    Utils.postErrorNoticeTOSlack(e);
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                } catch (JSONException e) {
+                    Utils.postErrorNoticeTOSlack(e);
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+                try {
+                    response = httpClient.execute(httppost);
+                    HttpEntity entity = response.getEntity();
+                    String responseString = EntityUtils.toString(entity, "UTF-8");
 
-        } catch (IOException e) {
-            Utils.postErrorNoticeTOSlack(e);
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
+                } catch (IOException e) {
+                    Utils.postErrorNoticeTOSlack(e);
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+            }
+        }).start();
     }
 
-    public static void postSuccessNoticeToSlack(String msg){
+    public static void postSuccessNoticeToSlack(final String msg){
         postNoticeTOSlack("#AndroidStudio#success#"+msg);
     }
 
-    public static void postErrorNoticeTOSlack(Exception e){
+    public static void postErrorNoticeTOSlack(final Exception e){
         StringWriter writer = new StringWriter();
         e.printStackTrace(new PrintWriter(writer,true));
 
         postNoticeTOSlack("#AndroidStudio#Error#"+writer.toString());
+
     }
 
     public static void local(){
@@ -121,6 +128,33 @@ public class Utils {
        }else{
            return false ;
        }
+    }
+
+    public static String getMd5(String path){
+        String value = null;
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            FileInputStream fis = new FileInputStream(path);
+
+            byte[] dataBytes = new byte[1024];
+
+            int nRead = 0;
+            while ((nRead = fis.read(dataBytes)) != -1) {
+                md.update(dataBytes, 0, nRead);
+            };
+            byte[] mBytes = md.digest();
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < mBytes.length; i++) {
+                sb.append(Integer.toString((mBytes[i] & 0xff) + 0x100, 16).substring(1));
+            }
+            System.out.println("Digest(in hex format):: " + sb.toString());
+            fis.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+
+        }
+        return value;
     }
 
 }
