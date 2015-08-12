@@ -65,6 +65,10 @@ public class Utils {
         };
     }
 
+    /**
+     * 发送slack通知
+     * @param msg
+     */
     public static void postNoticeTOSlack(final String msg){
         new Thread(new Runnable() {
             @Override
@@ -120,6 +124,10 @@ public class Utils {
         String country = locale.getCountry();
     }
 
+    /**
+     * 国际化判断
+     * @return
+     */
     public static boolean isZh(){
        Locale locale = Locale.getDefault();
        String language = locale.getLanguage();
@@ -130,6 +138,11 @@ public class Utils {
        }
     }
 
+    /**
+     * 获取文件的MD5
+     * @param path
+     * @return
+     */
     public static String getMd5(String path){
         String value = null;
         try {
