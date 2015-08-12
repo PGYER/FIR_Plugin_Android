@@ -468,6 +468,7 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
                 uploadBtn.setEnabled(true);
                 uploadBtn.setText(document.uploadBtn);
                 main.getInstance().tips.setText("File upload success");
+                //todo: 添加计时器
                 changeLogTa.setText("");
                 uploadFinishNotice();
                 Thread th = new Thread(new Runnable() {

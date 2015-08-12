@@ -13,10 +13,12 @@ import java.util.TimerTask;
  */
 public class TimerScan {
     Timer timer;
+    long Interval = 3000;
+    long delay = 0;
 
     public TimerScan(String path){
         timer = new Timer();
-        timer.schedule(new TimerScanTask(path), 1000,3000);
+        timer.schedule(new TimerScanTask(path), delay, Interval);
 
         //todo: 设置合理的间隔时间进行扫描
     }
