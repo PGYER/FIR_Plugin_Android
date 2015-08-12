@@ -1,7 +1,7 @@
 <idea-plugin version="2">
     <id>fir.im.plug.idea</id>
     <name>fir.im upload</name>
-    <version>1.2</version>
+    <version>1.3</version>
     <vendor email="yh@fir.im" url="http://fir.im">FIR.im</vendor>
 
     <description><![CDATA[
@@ -31,6 +31,9 @@
      v1.2 change:
      <br> - upload icon     <br>
      <br> - new api doc http://fir.im/docs     <br>
+     v1.3 change:
+     <br> -add click link to browser it in internet <br>
+     <br> -add tips <br>
       ]]>
     </change-notes>
 

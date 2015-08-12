@@ -28,11 +28,11 @@ import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.event.*;
 import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 /**
@@ -173,6 +173,33 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
 
                     }
                 });            }
+        });
+        shortLink.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent mouseEvent) {
+                //To change body of implemented methods use File | Settings | File Templates.
+                browserUrl(main.getInstance().shortLink.getText());
+            }
+
+            @Override
+            public void mousePressed(MouseEvent mouseEvent) {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent mouseEvent) {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent mouseEvent) {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            @Override
+            public void mouseExited(MouseEvent mouseEvent) {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
         });
     }
 
@@ -468,7 +495,8 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
                     public void hyperlinkUpdate(HyperlinkEvent e) {
 
                         if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-                            ToolWindowManager.getInstance(ProjectManager.getInstance().getOpenProjects()[0]).getToolWindow("FIR.im").show(null);
+//                            ToolWindowManager.getInstance(ProjectManager.getInstance().getOpenProjects()[0]).getToolWindow("FIR.im").show(null);
+                            browserUrl(main.getInstance().shortLink.getText())  ;
                         }
 
                     }
@@ -478,7 +506,17 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
                 .show(RelativePoint.getNorthEastOf(statusBar.getComponent()),
                         Balloon.Position.above);
     }
-
+    public void browserUrl(String url){
+        try {
+            Desktop.getDesktop().browse(new URI( url));
+        } catch (IOException e1) {
+            e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            Utils.postErrorNoticeTOSlack(e1);
+        } catch (URISyntaxException e1) {
+            e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            Utils.postErrorNoticeTOSlack(e1);
+        }
+    }
 
     public void initComponent(){
         document = new ro.catalin.prata.firuploader.Model.Document();

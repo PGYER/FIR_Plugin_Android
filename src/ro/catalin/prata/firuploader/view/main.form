@@ -207,6 +207,7 @@
             <properties>
               <background color="-1"/>
               <font size="16"/>
+              <toolTipText value=""/>
             </properties>
             <border type="none"/>
             <children>
@@ -216,8 +217,9 @@
                 </constraints>
                 <properties>
                   <font size="16"/>
-                  <foreground color="-6710887"/>
+                  <foreground color="-16737895"/>
                   <text value=""/>
+                  <toolTipText value="点击查看"/>
                 </properties>
               </component>
             </children>
