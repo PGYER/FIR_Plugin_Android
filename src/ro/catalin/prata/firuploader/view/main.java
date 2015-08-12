@@ -59,6 +59,7 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
     private JLabel formPath;
     private JLabel formLink;
     private JLabel formLog;
+    private JLabel formHelp;
     private ToolWindow toolWindow;
     private String appVersion;
     private String appVersionCode;
@@ -179,6 +180,41 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
             public void mouseClicked(MouseEvent mouseEvent) {
                 //To change body of implemented methods use File | Settings | File Templates.
                 browserUrl(main.getInstance().shortLink.getText());
+            }
+
+            @Override
+            public void mousePressed(MouseEvent mouseEvent) {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent mouseEvent) {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent mouseEvent) {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            @Override
+            public void mouseExited(MouseEvent mouseEvent) {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+        });
+
+        formHelp.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent mouseEvent) {
+                //To change body of implemented methods use File | Settings | File Templates.
+                try {
+                    Desktop desktop = Desktop.getDesktop();
+                    String message = "mailto:yh@fir.im?subject=firuploader";
+                    URI uri = URI.create(message);
+                    desktop.mail(uri);
+                } catch (IOException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
             }
 
             @Override
