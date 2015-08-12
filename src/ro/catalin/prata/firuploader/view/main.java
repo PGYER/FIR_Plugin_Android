@@ -214,6 +214,7 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
                     desktop.mail(uri);
                 } catch (IOException e) {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    Utils.postErrorNoticeTOSlack(e);
                 }
             }
 
