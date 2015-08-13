@@ -22,5 +22,7 @@ public class TimerScanTask  extends TimerTask {
         System.out.println("本次执行该线程的时间为：" + date);
 
         //todo: 定时计算文件的md5判断文件有没有变化
+
+        Tips.showMD5ChangedUploadTips();
     }
 }
