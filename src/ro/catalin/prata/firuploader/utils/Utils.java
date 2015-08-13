@@ -161,6 +161,7 @@ public class Utils {
                 sb.append(Integer.toString((mBytes[i] & 0xff) + 0x100, 16).substring(1));
             }
             System.out.println("Digest(in hex format):: " + sb.toString());
+            value = sb.toString();
             fis.close();
         } catch (Exception e) {
             e.printStackTrace();
