@@ -34,7 +34,8 @@ public class TimerScanTask  extends TimerTask {
         String md5 = Utils.getMd5(path);
         if(!md5.equals(KeysManager.instance().getMd5())) {
             System.out.println("本次执行该线程的时间为：3" + date);
-            main.getInstance().uploadFinishNotice();
+//            main.getInstance().uploadFinishNotice();
+            //todo: 提示
         }
 
 
