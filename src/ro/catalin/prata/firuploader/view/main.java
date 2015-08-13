@@ -242,28 +242,6 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
         });
         timerScan = new TimerScan();
     }
-    public  void  showMD5ChangedUploadTips(){
-        StatusBar statusBar = WindowManager.getInstance()
-                .getStatusBar(ProjectManager.getInstance().getOpenProjects()[0]);
-
-
-        JBPopupFactory.getInstance()
-                .createHtmlTextBalloonBuilder("检测到apk文件改变了还没有上传, <a href='open'>点击</a> 打开FIR.im uploader 并上传.",
-                        MessageType.INFO, new HyperlinkListener() {
-                    @Override
-                    public void hyperlinkUpdate(HyperlinkEvent e) {
-
-                        if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-                            ToolWindowManager.getInstance(ProjectManager.getInstance().getOpenProjects()[0]).getToolWindow("FIR.im").show(null);
-                        }
-
-                    }
-                })
-                .setFadeoutTime(4000)
-                .createBalloon()
-                .show(RelativePoint.getNorthEastOf(statusBar.getComponent()),
-                        Balloon.Position.atRight);
-    }
 
     public String splitPath(String filep){
         String rt = "";

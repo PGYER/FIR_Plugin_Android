@@ -3,6 +3,7 @@ package ro.catalin.prata.firuploader.utils;
 import ro.catalin.prata.firuploader.controller.KeysManager;
 import ro.catalin.prata.firuploader.view.main;
 
+import javax.swing.*;
 import java.util.Date;
 import java.util.TimerTask;
 
@@ -34,8 +35,13 @@ public class TimerScanTask  extends TimerTask {
         String md5 = Utils.getMd5(path);
         if(!md5.equals(KeysManager.instance().getMd5())) {
             System.out.println("本次执行该线程的时间为：3" + date);
+            SwingUtilities.invokeLater(new Runnable() {
+                public void run() {
+                   Tips.showMD5ChangedUploadTips();
+                }
 //            main.getInstance().uploadFinishNotice();
-            //todo: 提示
+                   //todo: 提示
+               });
         }
 
 
