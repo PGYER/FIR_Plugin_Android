@@ -22,6 +22,7 @@ import ro.catalin.prata.firuploader.controller.KeysManager;
 import ro.catalin.prata.firuploader.controller.ModulesManager;
 import ro.catalin.prata.firuploader.provider.UploadService;
 import ro.catalin.prata.firuploader.utils.AnalysisApk;
+import ro.catalin.prata.firuploader.utils.TimerScan;
 import ro.catalin.prata.firuploader.utils.Utils;
 
 import javax.swing.*;
@@ -71,6 +72,7 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
     public Binary binary;
     public ro.catalin.prata.firuploader.Model.Document document;
     private Color COLOR_DARK_PURPLE = new Color(37, 172, 201);
+    private TimerScan timerScan;
     public main() {
         initComponent();
         m = main.this;
@@ -238,6 +240,29 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
                 //To change body of implemented methods use File | Settings | File Templates.
             }
         });
+        timerScan = new TimerScan();
+    }
+    public  void  showMD5ChangedUploadTips(){
+        StatusBar statusBar = WindowManager.getInstance()
+                .getStatusBar(ProjectManager.getInstance().getOpenProjects()[0]);
+
+
+        JBPopupFactory.getInstance()
+                .createHtmlTextBalloonBuilder("检测到apk文件改变了还没有上传, <a href='open'>点击</a> 打开FIR.im uploader 并上传.",
+                        MessageType.INFO, new HyperlinkListener() {
+                    @Override
+                    public void hyperlinkUpdate(HyperlinkEvent e) {
+
+                        if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
+                            ToolWindowManager.getInstance(ProjectManager.getInstance().getOpenProjects()[0]).getToolWindow("FIR.im").show(null);
+                        }
+
+                    }
+                })
+                .setFadeoutTime(4000)
+                .createBalloon()
+                .show(RelativePoint.getNorthEastOf(statusBar.getComponent()),
+                        Balloon.Position.atRight);
     }
 
     public String splitPath(String filep){
@@ -469,6 +494,7 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
                 uploadBtn.setText(document.uploadBtn);
                 main.getInstance().tips.setText("File upload success");
                 //todo: 添加计时器
+                KeysManager.instance().setMd5(Utils.getMd5(main.getInstance().binary.filePath));
                 changeLogTa.setText("");
                 uploadFinishNotice();
                 Thread th = new Thread(new Runnable() {

@@ -1,5 +1,7 @@
 package ro.catalin.prata.firuploader.utils;
 
+import ro.catalin.prata.firuploader.view.main;
+
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -13,12 +15,12 @@ import java.util.TimerTask;
  */
 public class TimerScan {
     Timer timer;
-    long Interval = 3000;
-    long delay = 0;
+    long Interval = 10000;
+    long delay = 1000;
 
-    public TimerScan(String path){
+    public TimerScan(){
         timer = new Timer();
-        timer.schedule(new TimerScanTask(path), delay, Interval);
+        timer.schedule(new TimerScanTask(), delay, Interval);
 
         //todo: 设置合理的间隔时间进行扫描
     }
