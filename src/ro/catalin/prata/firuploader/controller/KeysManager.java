@@ -50,8 +50,10 @@ public class KeysManager implements PersistentStateComponent<Element>,Compilatio
     // xml parsing constant used for the apk file path
     public static final String XML_ROOT_NAME_APK_FILE_PATH = "ApkFilePath";
     public static final String XML_ROOT_NAME_APK_MD5_VAL = "MD5";
+    public static final String XML_ROOT_NAME_APK_FLAG_VAL = "FLAG";
     public static final String XML_ROOT_NAME_SELECTED_MODULE_NAME = "SelectedModuleName";
     public static final String XML_ROOT_NAME_SELECTED_PROJECT_NAME = "SelectedProjectName";
+
     /**
      * Maximum number of milliseconds since the last compile time before the user can send the build to Test Flight (currently 5 minutes)
      */
@@ -76,6 +78,8 @@ public class KeysManager implements PersistentStateComponent<Element>,Compilatio
     private String apkFilePath;
 
     private String md5;
+
+    private String flag;
     /**
      * This is the user selected module name
      */
@@ -161,6 +165,11 @@ public class KeysManager implements PersistentStateComponent<Element>,Compilatio
             rootTag.addContent(filePathTag);
         }
 
+        if (flag != null){
+            Element filePathTag = new Element(XML_ROOT_NAME_APK_FLAG_VAL).setText(flag);
+            rootTag.addContent(filePathTag);
+        }
+
         if (selectedModuleName != null) {
             // set the user selected module
             Element moduleName = new Element(XML_ROOT_NAME_SELECTED_MODULE_NAME).setText(selectedModuleName);
@@ -220,6 +229,10 @@ public class KeysManager implements PersistentStateComponent<Element>,Compilatio
                     // parse the apk file path
                     md5 = parseMd5(rootElement);
 
+                }  else if (rootElement.getName().equals(XML_ROOT_NAME_APK_FLAG_VAL)) {
+                    // parse the apk file path
+                    flag = parseFlag(rootElement);
+
                 }
 
             }
@@ -265,6 +278,11 @@ public class KeysManager implements PersistentStateComponent<Element>,Compilatio
     }
 
     public String parseMd5(Element element){
+        return element.getText();
+    }
+
+
+    public String parseFlag(Element element){
         return element.getText();
     }
 
@@ -325,6 +343,15 @@ public class KeysManager implements PersistentStateComponent<Element>,Compilatio
         this.md5 = m;
     }
 
+
+    public String getFlag(){
+        return flag;
+    }
+
+
+    public void setFlag(String fl){
+        this.flag = fl;
+    }
     /**
      * Returns the user's selected module name, null if none was saved so far
      *
