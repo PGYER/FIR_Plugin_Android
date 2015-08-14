@@ -61,6 +61,8 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
     private JLabel formLink;
     private JLabel formLog;
     private JLabel formHelp;
+    private JLabel formTip;
+    private JCheckBox formTipCB;
     private ToolWindow toolWindow;
     private String appVersion;
     private String appVersionCode;
@@ -241,6 +243,18 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
             }
         });
         timerScan = new TimerScan();
+
+        this.formTipCB.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                //To change body of implemented methods use File | Settings | File Templates.
+                if(formTipCB.isSelected()){
+                    KeysManager.instance().setFlag("");
+                }else{
+                    KeysManager.instance().setFlag("cancel");
+                }
+            }
+        });
     }
 
     public String splitPath(String filep){
@@ -571,6 +585,12 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
         this.settingBtn.setText(document.settingBtn);
         this.setTokenBtn.setText(document.setTokenBtn);
         this.uploadBtn.setText(document.uploadBtn);
+        this.formTip.setText(document.formTip);
+        if("cancel".equals(KeysManager.instance().getFlag())){
+            this.formTipCB.setSelected(false);
+        }else{
+            this.formTipCB.setSelected(true);
+        }
     }
 
 }
