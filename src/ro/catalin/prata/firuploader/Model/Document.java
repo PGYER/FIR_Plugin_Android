@@ -19,6 +19,7 @@ public class Document {
     public String setTokenBtn;
     public String settingBtn;
     public String uploadBtn;
+    public String formTip;
     public Document(){
         if(Utils.isZh()){
             formHeader = "fir.im 一键上传";
@@ -30,6 +31,7 @@ public class Document {
             setTokenBtn = "设置";
             settingBtn = "选择文件";
             uploadBtn = "上传" ;
+            formTip = "检测提示";
         } else{
             formHeader = "fir.im upload";
             formToken = "api_token";
@@ -40,6 +42,7 @@ public class Document {
             setTokenBtn = "setting";
             settingBtn = "choose path";
             uploadBtn = "upload" ;
+            formTip = "check & tip";
         }
 
     }
