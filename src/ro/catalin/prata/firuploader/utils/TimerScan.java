@@ -16,7 +16,7 @@ import java.util.TimerTask;
 public class TimerScan {
     Timer timer;
     long Interval = 30000;
-    long delay = 1000;
+    long delay = 30000;
 
     public TimerScan(){
         timer = new Timer();
