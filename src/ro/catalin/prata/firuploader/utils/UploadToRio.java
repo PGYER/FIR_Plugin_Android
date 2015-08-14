@@ -5,17 +5,14 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpPut;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
-import ro.catalin.prata.firuploader.Model.AppInfo;
+import ro.catalin.prata.firuploader.Model.UploadTicket;
 import ro.catalin.prata.firuploader.Model.UploadToken;
-import ro.catalin.prata.firuploader.view.main;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -49,7 +46,7 @@ public class UploadToRio {
     public String changeLog;
     public String appShort;
     public String appOid;
-    public AppInfo appInfo;
+    public UploadTicket uploadTicket;
 
     public UploadToRio(String appId,String token,String appName,String versionName,String versionCode,String changeLog){
         this.appId = appId;
@@ -59,7 +56,7 @@ public class UploadToRio {
         this.versionName = versionName;
         this.token = token;
 
-        appInfo = new AppInfo(getUploadToken()) ;
+        uploadTicket = new UploadTicket(getUploadToken()) ;
 
     }
 

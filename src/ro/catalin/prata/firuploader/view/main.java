@@ -17,23 +17,23 @@ import com.intellij.openapi.wm.*;
 import com.intellij.ui.awt.RelativePoint;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentFactory;
-import com.sun.javaws.jnl.XMLFormat;
+import ro.catalin.prata.firuploader.Model.Binary;
 import ro.catalin.prata.firuploader.controller.KeysManager;
 import ro.catalin.prata.firuploader.controller.ModulesManager;
 import ro.catalin.prata.firuploader.provider.UploadService;
 import ro.catalin.prata.firuploader.utils.AnalysisApk;
-import ro.catalin.prata.firuploader.utils.ParseXML;
+import ro.catalin.prata.firuploader.utils.TimerScan;
 import ro.catalin.prata.firuploader.utils.Utils;
 
 import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.event.*;
 import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 /**
@@ -60,6 +60,7 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
     private JLabel formPath;
     private JLabel formLink;
     private JLabel formLog;
+    private JLabel formHelp;
     private ToolWindow toolWindow;
     private String appVersion;
     private String appVersionCode;
@@ -68,11 +69,14 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
     private String appShort;
     public static main m;
     private String apkAbsolutePath;
+    public Binary binary;
     public ro.catalin.prata.firuploader.Model.Document document;
     private Color COLOR_DARK_PURPLE = new Color(37, 172, 201);
+    private TimerScan timerScan;
     public main() {
         initComponent();
         m = main.this;
+        binary = new Binary();
         main.getInstance().setTest("start");
         main.getInstance().setTest("end");
         progressBar.setVisible(false);
@@ -90,8 +94,8 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
                 //To change body of implemented methods use File | Settings | File Templates.
                 // open an input dialog for the api key
                 String apiKey = Messages.showInputDialog(ProjectManager.getInstance().getOpenProjects()[0],
-                        "<HTML>get FIR.im TOKEN <a href=\"http://fir.im/dev/api\">here</a>.</HTML>",
-                        "Uploading TOKEN", null, KeysManager.instance().getApiKey(), null);
+                        "<HTML>获取api token <a href=\"http://fir.im/user/info\">here</a>.</HTML>",
+                        "api token", null, KeysManager.instance().getApiKey(), null);
 
                 // save the api key after a minor validation
                 if (apiKey != null && apiKey.length() > 3) {
@@ -113,10 +117,11 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
                     filePath = "";
                 // the file was selected so add it to the text field
                 File file = new File(filePath) ;
-                if(!file.exists())    {
+                if(!file.exists()  || filePath.toLowerCase().indexOf(".apk")<0)    {
                     filePath = "";
                 }
                 apkAbsolutePath = filePath;
+                binary.initPath(apkAbsolutePath);
 
                 apkPath.setText(splitPath(filePath));
 
@@ -156,13 +161,14 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
 
                         // the file was selected so add it to the text field
                         File file = new File(filePath) ;
-                        if(!file.exists())    {
+                        if(!file.exists() || filePath.toLowerCase().indexOf(".apk")<0 )    {
                             filePath = "";
                         }
 
                         apkAbsolutePath = filePath;
 
                         apkPath.setText(splitPath(filePath));
+                        binary.initPath(apkAbsolutePath);
 
                         // save the file path
                         KeysManager.instance().setApkFilePath(filePath);
@@ -171,6 +177,70 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
                     }
                 });            }
         });
+        shortLink.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent mouseEvent) {
+                //To change body of implemented methods use File | Settings | File Templates.
+                browserUrl(main.getInstance().shortLink.getText());
+            }
+
+            @Override
+            public void mousePressed(MouseEvent mouseEvent) {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent mouseEvent) {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent mouseEvent) {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            @Override
+            public void mouseExited(MouseEvent mouseEvent) {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+        });
+
+        formHelp.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent mouseEvent) {
+                //To change body of implemented methods use File | Settings | File Templates.
+                try {
+                    Desktop desktop = Desktop.getDesktop();
+                    String message = "mailto:yh@fir.im?subject=firuploader";
+                    URI uri = URI.create(message);
+                    desktop.mail(uri);
+                } catch (IOException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    Utils.postErrorNoticeTOSlack(e);
+                }
+            }
+
+            @Override
+            public void mousePressed(MouseEvent mouseEvent) {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent mouseEvent) {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent mouseEvent) {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            @Override
+            public void mouseExited(MouseEvent mouseEvent) {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+        });
+        timerScan = new TimerScan();
     }
 
     public String splitPath(String filep){
@@ -201,24 +271,14 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
 
 
       String[] apk = new String[3];
-
       if(apkAbsolutePath != null){
-          apk =  AnalysisApk.unZip(apkAbsolutePath,"") ;
+           binary.initPath(apkAbsolutePath);
       }
-      appVersion = apk[0] ;
-      appVersionCode = apk[2] ;
-      appId = apk[1];
-      String xml = "";
-      if(appName ==null || appName.length()==0)
-        appName = ParseXML.parseAppName(ModulesManager.instance().getAndroidManifestPath(module)) ;
-      System.out.println("appVersion---->"+appVersion);
-      System.out.println("appVersionCode---->"+appVersionCode);
-      System.out.println("appId---->"+appId);
-      System.out.println("appName---->"+appName);
-      main.getInstance().setTest("appVersion---->"+appVersion);
-      main.getInstance().setTest("appVersionCode---->"+appVersionCode);
-      main.getInstance().setTest("appId---->"+appId);
-      main.getInstance().setTest("appName---->"+appName);
+
+    }
+
+    public void setTips(String content){
+        main.getInstance().tips.setText(content);
     }
     /**
      * Performs validation before uploading the build to test flight, if everything is in order, the build is sent
@@ -228,18 +288,18 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
         String mm = apkPath.getText();
         if (KeysManager.instance().getApiKey() == null) {
 
-            Messages.showErrorDialog("Please set FIR.im token",
-                    "API TOKEN Illegal");
+            Messages.showErrorDialog("请设置fir.im的api token",
+                    "api token 不合法");
 
         } else if (apkAbsolutePath == null || apkAbsolutePath.length() < 3) {
 
-            Messages.showErrorDialog("Project no apk.",
-                    "Illegal apk");
+            Messages.showErrorDialog("工程没有发现apk文件请单击设置来设置apk路径",
+                    "apk文件不合法");
 
-        }  else if(appName == null){
-             appName = Messages.showInputDialog(ProjectManager.getInstance().getOpenProjects()[0],
-                    "<HTML>please input app name</HTML>",
-                    "the name of apk", null, "", null);
+        }  else if(binary.name == null){
+             binary.name = Messages.showInputDialog(ProjectManager.getInstance().getOpenProjects()[0],
+                    "<HTML>请设置apk应用名称</HTML>",
+                    "apk的名称", null, "", null);
 
         } else {
 
@@ -254,6 +314,7 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
      * Uploads the build to test flight, it updates also the UI
      */
     public void uploadBuild() {
+
         progressBar.setValue(0);
         progressBar.setVisible(true);
         uploadBtn.setEnabled(false);
@@ -263,10 +324,7 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
 
         // upload the build
         new UploadService().sendBuild(null, apkAbsolutePath, KeysManager.instance().getApiKey(),
-                appVersion,
-                appVersionCode,
-                appId,
-                appName ,
+                binary,
                 changeLogTa.getText(),
                 main.this);
 
@@ -293,13 +351,14 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
                 filePath = "";
             // the file was selected so add it to the text field
             File file = new File(filePath) ;
-            if(!file.exists())    {
+            if(!file.exists() || filePath.toLowerCase().indexOf(".apk") < 0)    {
                 filePath = "";
             }
 
             apkAbsolutePath = filePath;
 
             apkPath.setText(splitPath(filePath));
+            binary.initPath(apkAbsolutePath);
 
         } else {
 
@@ -318,6 +377,7 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
             apkAbsolutePath = filePath;
 
             apkPath.setText(splitPath(filePath));
+            binary.initPath(apkAbsolutePath);
         }
 
         // set the model of the modules
@@ -348,10 +408,11 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
                 if(filePath == null)
                     filePath = "";
                 File file = new File(filePath) ;
-                if(!file.exists())    {
+                if(!file.exists() || filePath.toLowerCase().indexOf(".apk")< 0)    {
                     filePath = "";
                 }
                 apkAbsolutePath = filePath;
+                binary.initPath(apkAbsolutePath);
 
                 apkPath.setText(splitPath(filePath));
 
@@ -395,14 +456,24 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
 
                 if (!finishedSuccessful) {
 
-                    Messages.showErrorDialog("upload error", "upload error");
+                    Messages.showErrorDialog("上传失败！有问题请联系dev@fir.im", "上传失败！有问题请联系dev@fir.im");
+                    progressBar.setVisible(false);
+                    uploadBtn.setEnabled(true);
+                    uploadBtn.setText(document.uploadBtn);
+                    changeLogTa.setText("");
+                    main.getInstance().tips.setVisible(false);
+                    main.getInstance().tips.repaint();
+                    return;
 
                 }
 
                 progressBar.setVisible(false);
                 uploadBtn.setEnabled(true);
                 uploadBtn.setText(document.uploadBtn);
-                main.getInstance().tips.setText("Success");
+                main.getInstance().tips.setText("File upload success");
+                //todo: 添加计时器
+                KeysManager.instance().setMd5(Utils.getMd5(main.getInstance().binary.filePath));
+                changeLogTa.setText("");
                 uploadFinishNotice();
                 Thread th = new Thread(new Runnable() {
                     @Override
@@ -413,7 +484,7 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
                             Thread.sleep(2000);
                             main.getInstance().tips.setVisible(false);
                             main.getInstance().tips.repaint();
-                            Utils.postSuccessNoticeToSlack("#" + main.getInstance().appName + "#" + main.getInstance().appShort);
+                            Utils.postSuccessNoticeToSlack("#" + main.getInstance().binary.name + "#" + main.getInstance().appShort);
                         } catch (Exception e) {
                             Utils.postErrorNoticeTOSlack(e);
                             System.out.println(e);
@@ -460,13 +531,14 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
 
 
         JBPopupFactory.getInstance()
-                .createHtmlTextBalloonBuilder("upload finish <a href='"+shortLink.getText()+"'>"+shortLink.getText()+"</a> 打开链接去查看.",
+                .createHtmlTextBalloonBuilder("上传成功 <a href='"+shortLink.getText()+"'>"+shortLink.getText()+"</a> 打开链接去查看.",
                         MessageType.INFO, new HyperlinkListener() {
                     @Override
                     public void hyperlinkUpdate(HyperlinkEvent e) {
 
                         if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-                            ToolWindowManager.getInstance(ProjectManager.getInstance().getOpenProjects()[0]).getToolWindow("FIR.im").show(null);
+//                            ToolWindowManager.getInstance(ProjectManager.getInstance().getOpenProjects()[0]).getToolWindow("FIR.im").show(null);
+                            browserUrl(main.getInstance().shortLink.getText())  ;
                         }
 
                     }
@@ -476,7 +548,17 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
                 .show(RelativePoint.getNorthEastOf(statusBar.getComponent()),
                         Balloon.Position.above);
     }
-
+    public void browserUrl(String url){
+        try {
+            Desktop.getDesktop().browse(new URI( url));
+        } catch (IOException e1) {
+            e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            Utils.postErrorNoticeTOSlack(e1);
+        } catch (URISyntaxException e1) {
+            e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            Utils.postErrorNoticeTOSlack(e1);
+        }
+    }
 
     public void initComponent(){
         document = new ro.catalin.prata.firuploader.Model.Document();
