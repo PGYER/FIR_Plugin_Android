@@ -8,6 +8,7 @@ import com.intellij.openapi.wm.StatusBar;
 import com.intellij.openapi.wm.ToolWindowManager;
 import com.intellij.openapi.wm.WindowManager;
 import com.intellij.ui.awt.RelativePoint;
+import ro.catalin.prata.firuploader.controller.KeysManager;
 
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
@@ -54,13 +55,19 @@ public class Tips {
 
 
         JBPopupFactory.getInstance()
-                .createHtmlTextBalloonBuilder("检测到apk文件改变了还没有上传, <a href='open'>点击</a> 打开FIR.im uploader 并上传.",
+                .createHtmlTextBalloonBuilder("检测到apk文件改变了还没有上传, <a href='http://fir.im/androidStudio/open'>点击</a>上传吧.</br><a href='http://fir.im/androidStudio/cancel'>取消提示</a>",
                         MessageType.INFO, new HyperlinkListener() {
                     @Override
                     public void hyperlinkUpdate(HyperlinkEvent e) {
 
                         if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-                            ToolWindowManager.getInstance(ProjectManager.getInstance().getOpenProjects()[0]).getToolWindow("FIR.im").show(null);
+                            if(e.getURL().toString().equals("http://fir.im/androidStudio/open")) {
+                                ToolWindowManager.getInstance(ProjectManager.getInstance().getOpenProjects()[0]).getToolWindow("FIR.im").show(null);
+                            }
+                            if(e.getURL().toString().equals("http://fir.im/androidStudio/cancel")) {
+                                System.out.println(e.getURL().toString()) ;
+                                KeysManager.instance().setFlag("cancel");
+                            }
                         }
 
                     }
