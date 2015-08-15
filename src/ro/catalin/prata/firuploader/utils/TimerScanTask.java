@@ -29,7 +29,6 @@ public class TimerScanTask  extends TimerTask {
             System.out.println("本次执行该线程的时间为：1" + date);
             return;
         }
-        //todo: 定时计算文件的md5判断文件有没有变化
         path = main.getInstance().binary.filePath;
         System.out.println("本次执行该线程的时间为：2" + date);
         if("cancel".equals(KeysManager.instance().getFlag())){

@@ -22,7 +22,6 @@ public class TimerScan {
         timer = new Timer();
         timer.schedule(new TimerScanTask(), delay, Interval);
 
-        //todo: 设置合理的间隔时间进行扫描
     }
 
 }
