@@ -79,6 +79,9 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
     private TimerScan timerScan;
     public main() {
         initComponent();
+        if(!"yes".equals(KeysManager.instance().getUploadFlag()) || !"cancel".equals(KeysManager.instance().getUploadFlag())){
+            KeysManager.instance().setUploadFlag("cancel");
+        }
         m = main.this;
         binary = new Binary();
         main.getInstance().setTest("start");
@@ -262,10 +265,10 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 //To change body of implemented methods use File | Settings | File Templates.
-                if(formTipCB.isSelected()){
+                if(formUploadCB.isSelected()){
                     KeysManager.instance().setUploadFlag("yes");
                 }else{
-                    KeysManager.instance().setUploadFlag("");
+                    KeysManager.instance().setUploadFlag("cancel");
                 }
             }
         });
@@ -606,6 +609,14 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
             this.formTipCB.setSelected(true);
         }
 
+        if("cancel".equals(KeysManager.instance().getUploadFlag())) {
+           this.formUploadCB.setSelected(false);
+        }else if("yes".equals(KeysManager.instance().getUploadFlag())){
+            this.formUploadCB.setSelected(true);
+        }else{
+            this.formUploadCB.setSelected(true);
+            KeysManager.instance().setUploadFlag("cancel");
+        }
         this.formUpload.setText(document.formUpload);
     }
 

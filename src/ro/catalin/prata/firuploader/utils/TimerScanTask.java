@@ -35,6 +35,7 @@ public class TimerScanTask  extends TimerTask {
         if(!md5.equals(KeysManager.instance().getMd5())) {
             if("yes".equals(KeysManager.instance().getUploadFlag())){
                main.getInstance().uploadBuild();
+               return;
             }
             if("cancel".equals(KeysManager.instance().getFlag())){
                 System.out.println("取消了自动检测提示");
