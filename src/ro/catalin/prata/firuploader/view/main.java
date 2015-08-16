@@ -63,6 +63,8 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
     private JLabel formHelp;
     private JLabel formTip;
     private JCheckBox formTipCB;
+    private JLabel formUpload;
+    private JCheckBox formUploadCB;
     private ToolWindow toolWindow;
     private String appVersion;
     private String appVersionCode;
@@ -252,6 +254,18 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
                     KeysManager.instance().setFlag("");
                 }else{
                     KeysManager.instance().setFlag("cancel");
+                }
+            }
+        });
+
+        this.formUploadCB.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                //To change body of implemented methods use File | Settings | File Templates.
+                if(formTipCB.isSelected()){
+                    KeysManager.instance().setUploadFlag("yes");
+                }else{
+                    KeysManager.instance().setUploadFlag("");
                 }
             }
         });
@@ -591,6 +605,8 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
         }else{
             this.formTipCB.setSelected(true);
         }
+
+        this.formUpload.setText(document.formUpload);
     }
 
 }

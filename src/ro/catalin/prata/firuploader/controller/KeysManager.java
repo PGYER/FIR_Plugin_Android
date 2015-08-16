@@ -51,6 +51,7 @@ public class KeysManager implements PersistentStateComponent<Element>,Compilatio
     public static final String XML_ROOT_NAME_APK_FILE_PATH = "ApkFilePath";
     public static final String XML_ROOT_NAME_APK_MD5_VAL = "MD5";
     public static final String XML_ROOT_NAME_APK_FLAG_VAL = "FLAG";
+    public static final String XML_ROOT_NAME_APK_UPLOAD_FLAG_VAL = "UPLOAD_FLAG";
     public static final String XML_ROOT_NAME_SELECTED_MODULE_NAME = "SelectedModuleName";
     public static final String XML_ROOT_NAME_SELECTED_PROJECT_NAME = "SelectedProjectName";
 
@@ -78,6 +79,8 @@ public class KeysManager implements PersistentStateComponent<Element>,Compilatio
     private String apkFilePath;
 
     private String md5;
+
+    private String uploadFlag;
 
     private String flag;
     /**
@@ -165,6 +168,11 @@ public class KeysManager implements PersistentStateComponent<Element>,Compilatio
             rootTag.addContent(filePathTag);
         }
 
+        if(uploadFlag != null){
+            Element filePathTag = new Element(XML_ROOT_NAME_APK_UPLOAD_FLAG_VAL).setText(uploadFlag);
+            rootTag.addContent(filePathTag);
+        }
+
         if (flag != null){
             Element filePathTag = new Element(XML_ROOT_NAME_APK_FLAG_VAL).setText(flag);
             rootTag.addContent(filePathTag);
@@ -229,7 +237,11 @@ public class KeysManager implements PersistentStateComponent<Element>,Compilatio
                     // parse the apk file path
                     md5 = parseMd5(rootElement);
 
-                }  else if (rootElement.getName().equals(XML_ROOT_NAME_APK_FLAG_VAL)) {
+                } else if (rootElement.getName().equals(XML_ROOT_NAME_APK_UPLOAD_FLAG_VAL)) {
+                    // parse the apk file path
+                    uploadFlag = parseUploadFlag(rootElement);
+
+                }else if (rootElement.getName().equals(XML_ROOT_NAME_APK_FLAG_VAL)) {
                     // parse the apk file path
                     flag = parseFlag(rootElement);
 
@@ -283,6 +295,10 @@ public class KeysManager implements PersistentStateComponent<Element>,Compilatio
 
 
     public String parseFlag(Element element){
+        return element.getText();
+    }
+
+    public String parseUploadFlag(Element element){
         return element.getText();
     }
 
@@ -343,6 +359,13 @@ public class KeysManager implements PersistentStateComponent<Element>,Compilatio
         this.md5 = m;
     }
 
+    public String getUploadFlag(){
+        return uploadFlag;
+    }
+
+    public void setUploadFlag(String flag){
+        this.uploadFlag = flag;
+    }
 
     public String getFlag(){
         return flag;
