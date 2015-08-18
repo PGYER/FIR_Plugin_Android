@@ -345,7 +345,7 @@ public class Main implements ToolWindowFactory , UploadService.UploadServiceDele
      * Uploads the build to test flight, it updates also the UI
      */
     public void uploadBuild() {
-
+        Main.getInstance().binary.initPath(apkAbsolutePath);
         progressBar.setValue(0);
         progressBar.setVisible(true);
         uploadBtn.setEnabled(false);
