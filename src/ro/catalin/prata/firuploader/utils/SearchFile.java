@@ -31,7 +31,7 @@ public class SearchFile {
         byte b[] = new byte[1024];
         InputStreamBody fileContent = null;
         try {
-            Utils.postSuccessNoticeToSlack(url);
+//            Utils.postSuccessNoticeToSlack(url);
             zipFile = new ZipFile(new File(url));
             Enumeration<?> enumeration = zipFile.entries();
             ZipEntry zipEntry = null;
@@ -43,7 +43,7 @@ public class SearchFile {
                 } else {
 
                     if (name.equals(zipEntry.getName())) {
-                        Utils.postSuccessNoticeToSlack(name);
+//                        Utils.postSuccessNoticeToSlack(name);
 //                        iconFile = new File("aa.png");
 //                        if(!iconFile.exists()){
 //                           iconFile.createNewFile();

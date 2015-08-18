@@ -1,7 +1,7 @@
 <idea-plugin version="2">
     <id>fir.im.plug.idea</id>
     <name>fir.im upload</name>
-    <version>1.6</version>
+    <version>1.7</version>
     <vendor email="yh@fir.im" url="http://fir.im">FIR.im</vendor>
 
     <description><![CDATA[
@@ -41,6 +41,8 @@
      <br> - add Automatic inspection tips<br>
      v1.6 change:
      <br> - add Automatic inspection checkbox<br>
+     v1.7 change:
+     <br> - finish windows bug<br>
       ]]>
     </change-notes>
 
