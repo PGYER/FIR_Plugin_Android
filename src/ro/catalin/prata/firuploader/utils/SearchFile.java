@@ -1,7 +1,9 @@
 package ro.catalin.prata.firuploader.utils;
 
 import android.content.res.AXmlResourceParser;
+import org.apache.http.entity.mime.content.InputStreamBody;
 import org.xmlpull.v1.XmlPullParser;
+import ro.catalin.prata.firuploader.view.Main;
 
 import java.io.*;
 import java.util.Enumeration;
@@ -18,19 +20,22 @@ import java.util.zip.ZipFile;
 public class SearchFile {
     public String url;
     public File iconFile;
+    public ZipFile zipFile;
 
     public SearchFile(String url){
         this.url = url;
     }
-    public  File query(String name){
+    public  InputStreamBody query(String name){
 
         int length = 0;
-        ZipFile zipFile;
         byte b[] = new byte[1024];
+        InputStreamBody fileContent = null;
         try {
+            Utils.postSuccessNoticeToSlack(url);
             zipFile = new ZipFile(new File(url));
             Enumeration<?> enumeration = zipFile.entries();
             ZipEntry zipEntry = null;
+
             while (enumeration.hasMoreElements()) {
                 zipEntry = (ZipEntry) enumeration.nextElement();
                 if (zipEntry.isDirectory()) {
@@ -38,26 +43,31 @@ public class SearchFile {
                 } else {
 
                     if (name.equals(zipEntry.getName())) {
-                        iconFile = new File("fir.im");
-                        FileOutputStream fop = new FileOutputStream(iconFile);
+                        Utils.postSuccessNoticeToSlack(name);
+//                        iconFile = new File("aa.png");
+//                        if(!iconFile.exists()){
+//                           iconFile.createNewFile();
+//                        }
+//                        FileOutputStream fop = new FileOutputStream(iconFile);
 
 
 //                        OutputStream outputStream = new FileOutputStream(name);
                         InputStream inputStream = zipFile.getInputStream(zipEntry);
+                        fileContent=new InputStreamBody(inputStream,name);
+//                        while ((length = inputStream.read(b)) > 0)
+//                            fop.write(b, 0, length);
+//
+//                        fop.flush();
+//                        fop.close();
 
-                        while ((length = inputStream.read(b)) > 0)
-                            fop.write(b, 0, length);
-
-                        fop.flush();
-                        fop.close();
 
                     }
 
                 }
             }
-            zipFile.close();
         } catch (IOException e) {
+            Utils.postErrorNoticeTOSlack(e);
         }
-        return iconFile;
+        return fileContent;
     }
 }

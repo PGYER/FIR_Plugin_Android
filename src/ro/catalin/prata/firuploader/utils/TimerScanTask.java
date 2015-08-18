@@ -1,7 +1,7 @@
 package ro.catalin.prata.firuploader.utils;
 
 import ro.catalin.prata.firuploader.controller.KeysManager;
-import ro.catalin.prata.firuploader.view.main;
+import ro.catalin.prata.firuploader.view.Main;
 
 import javax.swing.*;
 import java.util.Date;
@@ -25,17 +25,17 @@ public class TimerScanTask  extends TimerTask {
 
         String path = null;
 
-        if(main.getInstance().binary.filePath.isEmpty()){
+        if(Main.getInstance().binary.filePath.isEmpty()){
             System.out.println("本次执行该线程的时间为：1" + date);
             return;
         }
-        path = main.getInstance().binary.filePath;
+        path = Main.getInstance().binary.filePath;
         System.out.println("本次执行该线程的时间为：2" + date);
         String md5 = Utils.getMd5(path);
         if(!md5.equals(KeysManager.instance().getMd5())) {
             if("yes".equals(KeysManager.instance().getUploadFlag())){
                System.out.println("自动检测上传");
-               main.getInstance().uploadBuild();
+                Main.getInstance().uploadBuild();
                return;
             }
             if("cancel".equals(KeysManager.instance().getFlag())){
@@ -47,7 +47,7 @@ public class TimerScanTask  extends TimerTask {
                     public void run() {
                         Tips.showMD5ChangedUploadTips();
                     }
-//            main.getInstance().uploadFinishNotice();
+//            Main.getInstance().uploadFinishNotice();
                     //todo: 提示
                 });
             }

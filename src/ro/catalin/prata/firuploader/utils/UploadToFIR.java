@@ -13,7 +13,7 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 import ro.catalin.prata.firuploader.Model.UploadToken;
-import ro.catalin.prata.firuploader.view.main;
+import ro.catalin.prata.firuploader.view.Main;
 
 
 
@@ -52,50 +52,50 @@ public class UploadToFIR {
 
 
     public UploadToFIR(String appId,String token,String appName,String versionName,String versionCode,String changeLog){
-        main.getInstance().setTest("token...."+token+":appName:"+appName+":appid:"+appId+":versionCode:"+versionCode);
+        Main.getInstance().setTest("token...."+token+":appName:"+appName+":appid:"+appId+":versionCode:"+versionCode);
         this.token = token;
         this.appName = appName;
         this.appId = appId;
         this.versionCode = versionCode;
         this.versionName = versionName;
         this.changeLog = changeLog;
-        main.getInstance().setTest("====");
+        Main.getInstance().setTest("====");
         try {
             HttpClient httpClient = new DefaultHttpClient();
-            main.getInstance().setTest("httpClient->"+httpClient.toString());
+            Main.getInstance().setTest("httpClient->"+httpClient.toString());
 
             HttpGet httpGet = new HttpGet("http://fir.im/api/v2/app/info/"+appId+"?type=android&token="+token)   ;
             HttpResponse response = null;
-            main.getInstance().setTest("httpGet->"+httpGet.toString());
+            Main.getInstance().setTest("httpGet->"+httpGet.toString());
             response = httpClient.execute(httpGet);
             HttpEntity entity = response.getEntity();
-            main.getInstance().setTest("entity->"+entity.toString());
+            Main.getInstance().setTest("entity->"+entity.toString());
             String responseString = EntityUtils.toString(entity, "UTF-8");
             System.out.println(responseString);
-            main.getInstance().setTest("responseString->"+responseString);
+            Main.getInstance().setTest("responseString->"+responseString);
             JSONObject js;
             js = new JSONObject(responseString);
-            main.getInstance().setTest("jsonObject->"+js.toString());
+            Main.getInstance().setTest("jsonObject->"+js.toString());
             appShort = js.getString("short")     ;
-            main.getInstance().setShortLink("http://fir.im/"+appShort);
+            Main.getInstance().setShortLink("http://fir.im/"+appShort);
             System.out.println("id::"+js.get("id"));
             appOid = js.getString("id");
-            main.getInstance().setTest("id::"+js.get("id"));
+            Main.getInstance().setTest("id::"+js.get("id"));
             System.out.println("==============》获取上传token") ;
             uploadToken = new UploadToken(js)  ;
-            main.getInstance().setTest("获取上传token....");
+            Main.getInstance().setTest("获取上传token....");
         } catch (IOException e) {
-            main.getInstance().setTest("error...."+e.getMessage());
+            Main.getInstance().setTest("error...."+e.getMessage());
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         } catch (JSONException e) {
-            main.getInstance().setTest("error...."+e.getMessage());
+            Main.getInstance().setTest("error...."+e.getMessage());
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
     }
 
 
     public void putAppinfo() throws UnsupportedEncodingException {
-        main.getInstance().setTest("更新APP信息....  start");
+        Main.getInstance().setTest("更新APP信息....  start");
         HttpClient httpClient = new DefaultHttpClient() ;
         String putUrl = "http://fir.im/api/v2/app/"+this.appOid+"?token="+this.token;
 
@@ -117,11 +117,11 @@ public class UploadToFIR {
             HttpResponse response = httpClient.execute(httpPut);
             HttpEntity entity = response.getEntity();
             String responseString = EntityUtils.toString(entity, "UTF-8");
-            main.getInstance().setTest("responseString---->"+responseString);
+            Main.getInstance().setTest("responseString---->"+responseString);
             System.out.println(responseString);
             JSONObject js;
             js = new JSONObject(responseString);
-            main.getInstance().setTest("更新APP信息....");
+            Main.getInstance().setTest("更新APP信息....");
         } catch (IOException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         } catch (JSONException e) {
@@ -151,7 +151,7 @@ public class UploadToFIR {
             System.out.println(responseString);
             JSONObject js;
             js = new JSONObject(responseString);
-            main.getInstance().setTest("更新version....");
+            Main.getInstance().setTest("更新version....");
             System.out.println("==============》更新version") ;
         } catch (IOException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -183,7 +183,7 @@ public class UploadToFIR {
             JSONObject js;
             js = new JSONObject(responseString);
             System.out.println("==============》更新日志");
-            main.getInstance().setTest("更新日志....");
+            Main.getInstance().setTest("更新日志....");
         } catch (IOException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         } catch (JSONException e) {

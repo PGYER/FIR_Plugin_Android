@@ -4,7 +4,7 @@ package ro.catalin.prata.firuploader.Model;
 import net.dongliu.apk.parser.ApkParser;
 import net.dongliu.apk.parser.bean.ApkMeta;
 import ro.catalin.prata.firuploader.utils.Utils;
-import ro.catalin.prata.firuploader.view.main;
+import ro.catalin.prata.firuploader.view.Main;
 
 import java.io.File;
 import java.io.IOException;
