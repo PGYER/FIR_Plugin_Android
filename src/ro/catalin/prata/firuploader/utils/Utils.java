@@ -14,7 +14,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
-import ro.catalin.prata.firuploader.view.main;
+import ro.catalin.prata.firuploader.view.Main;
 
 import java.io.*;
 import java.math.BigInteger;

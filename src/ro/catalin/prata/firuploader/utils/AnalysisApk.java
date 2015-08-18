@@ -34,7 +34,7 @@ import org.xmlpull.v1.XmlPullParser;
 
 import android.content.res.AXmlResourceParser;
 import android.util.TypedValue;
-import ro.catalin.prata.firuploader.view.main;
+import ro.catalin.prata.firuploader.view.Main;
 
 /**
  * 分析APK文件，取得APK文件中的 包名、版本号及图标

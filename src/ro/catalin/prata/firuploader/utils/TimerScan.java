@@ -1,6 +1,6 @@
 package ro.catalin.prata.firuploader.utils;
 
-import ro.catalin.prata.firuploader.view.main;
+import ro.catalin.prata.firuploader.view.Main;
 
 import java.util.Date;
 import java.util.Timer;

@@ -43,7 +43,7 @@ import java.util.List;
  * Time: 下午7:39
  * To change this template use File | Settings | File Templates.
  */
-public class main implements ToolWindowFactory , UploadService.UploadServiceDelegate{
+public class Main implements ToolWindowFactory , UploadService.UploadServiceDelegate{
     private JPanel panel1;
     private JButton setTokenBtn;
     private JComboBox projectCombo;
@@ -63,24 +63,29 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
     private JLabel formHelp;
     private JLabel formTip;
     private JCheckBox formTipCB;
+    private JLabel formUpload;
+    private JCheckBox formUploadCB;
     private ToolWindow toolWindow;
     private String appVersion;
     private String appVersionCode;
     private String appId;
     private String appName;
     private String appShort;
-    public static main m;
+    public static Main m;
     private String apkAbsolutePath;
     public Binary binary;
     public ro.catalin.prata.firuploader.Model.Document document;
     private Color COLOR_DARK_PURPLE = new Color(37, 172, 201);
     private TimerScan timerScan;
-    public main() {
+    public Main() {
         initComponent();
-        m = main.this;
+        if(!"yes".equals(KeysManager.instance().getUploadFlag()) || !"cancel".equals(KeysManager.instance().getUploadFlag())){
+            KeysManager.instance().setUploadFlag("cancel");
+        }
+        m = Main.this;
         binary = new Binary();
-        main.getInstance().setTest("start");
-        main.getInstance().setTest("end");
+        Main.getInstance().setTest("start");
+        Main.getInstance().setTest("end");
         progressBar.setVisible(false);
         tips.setVisible(false);
         uploadBtn.addActionListener(new ActionListener() {
@@ -183,7 +188,7 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
                 //To change body of implemented methods use File | Settings | File Templates.
-                browserUrl(main.getInstance().shortLink.getText());
+                browserUrl(Main.getInstance().shortLink.getText());
             }
 
             @Override
@@ -255,6 +260,18 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
                 }
             }
         });
+
+        this.formUploadCB.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                //To change body of implemented methods use File | Settings | File Templates.
+                if(formUploadCB.isSelected()){
+                    KeysManager.instance().setUploadFlag("yes");
+                }else{
+                    KeysManager.instance().setUploadFlag("cancel");
+                }
+            }
+        });
     }
 
     public String splitPath(String filep){
@@ -272,7 +289,7 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
         shortLink.setText(sh);
         shortLink.repaint();
     }
-    public static main getInstance(){
+    public static Main getInstance(){
 
            return m;
     }
@@ -292,7 +309,7 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
     }
 
     public void setTips(String content){
-        main.getInstance().tips.setText(content);
+        Main.getInstance().tips.setText(content);
     }
     /**
      * Performs validation before uploading the build to test flight, if everything is in order, the build is sent
@@ -340,7 +357,7 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
         new UploadService().sendBuild(null, apkAbsolutePath, KeysManager.instance().getApiKey(),
                 binary,
                 changeLogTa.getText(),
-                main.this);
+                Main.this);
 
     }
 
@@ -475,8 +492,8 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
                     uploadBtn.setEnabled(true);
                     uploadBtn.setText(document.uploadBtn);
                     changeLogTa.setText("");
-                    main.getInstance().tips.setVisible(false);
-                    main.getInstance().tips.repaint();
+                    Main.getInstance().tips.setVisible(false);
+                    Main.getInstance().tips.repaint();
                     return;
 
                 }
@@ -484,9 +501,9 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
                 progressBar.setVisible(false);
                 uploadBtn.setEnabled(true);
                 uploadBtn.setText(document.uploadBtn);
-                main.getInstance().tips.setText("File upload success");
+                Main.getInstance().tips.setText("File upload success");
                 //todo: 添加计时器
-                KeysManager.instance().setMd5(Utils.getMd5(main.getInstance().binary.filePath));
+                KeysManager.instance().setMd5(Utils.getMd5(Main.getInstance().binary.filePath));
                 changeLogTa.setText("");
                 uploadFinishNotice();
                 Thread th = new Thread(new Runnable() {
@@ -496,9 +513,9 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
                         try {
                             // thread to sleep for 1000 milliseconds
                             Thread.sleep(2000);
-                            main.getInstance().tips.setVisible(false);
-                            main.getInstance().tips.repaint();
-                            Utils.postSuccessNoticeToSlack("#" + main.getInstance().binary.name + "#" + main.getInstance().appShort);
+                            Main.getInstance().tips.setVisible(false);
+                            Main.getInstance().tips.repaint();
+                            Utils.postSuccessNoticeToSlack("#" + Main.getInstance().binary.name + "#" + Main.getInstance().appShort);
                         } catch (Exception e) {
                             Utils.postErrorNoticeTOSlack(e);
                             System.out.println(e);
@@ -552,7 +569,7 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
 
                         if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
 //                            ToolWindowManager.getInstance(ProjectManager.getInstance().getOpenProjects()[0]).getToolWindow("FIR.im").show(null);
-                            browserUrl(main.getInstance().shortLink.getText())  ;
+                            browserUrl(Main.getInstance().shortLink.getText())  ;
                         }
 
                     }
@@ -591,6 +608,16 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
         }else{
             this.formTipCB.setSelected(true);
         }
+
+        if("cancel".equals(KeysManager.instance().getUploadFlag())) {
+           this.formUploadCB.setSelected(false);
+        }else if("yes".equals(KeysManager.instance().getUploadFlag())){
+            this.formUploadCB.setSelected(true);
+        }else{
+            this.formUploadCB.setSelected(false);
+            KeysManager.instance().setUploadFlag("cancel");
+        }
+        this.formUpload.setText(document.formUpload);
     }
 
 }

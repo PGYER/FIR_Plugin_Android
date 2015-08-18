@@ -6,6 +6,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.InputStreamBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
@@ -14,6 +15,7 @@ import ro.catalin.prata.firuploader.Model.Binary;
 import ro.catalin.prata.firuploader.Model.CustomMultiPartEntity;
 
 import java.io.File;
+import java.io.InputStream;
 import java.nio.charset.Charset;
 
 import ro.catalin.prata.firuploader.utils.SearchFile;
@@ -21,7 +23,7 @@ import  ro.catalin.prata.firuploader.utils.UploadToFIR;
 import ro.catalin.prata.firuploader.Model.UploadToken;
 import ro.catalin.prata.firuploader.utils.UploadToRio;
 import ro.catalin.prata.firuploader.utils.Utils;
-import ro.catalin.prata.firuploader.view.main;
+import ro.catalin.prata.firuploader.view.Main;
 
 /**
  * 上传服务
@@ -50,7 +52,7 @@ public class UploadService implements CustomMultiPartEntity.ProgressListener {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                main.getInstance().setTest("开始上传....");
+                Main.getInstance().setTest("开始上传....");
                 UploadToRio uploadToRio = new UploadToRio(binary.bundleId,apiToken,binary.name,binary.versionName,binary.versionCode,appChanglog)   ;
 
                 String url = uploadToRio.uploadTicket.binaryUploadUrl;
@@ -60,45 +62,49 @@ public class UploadService implements CustomMultiPartEntity.ProgressListener {
                     HttpPost post;
                     post = new HttpPost(url);
 
-                    main.getInstance().setShortLink("http://fir.im/"+uploadToRio.uploadTicket.appShort);
+                    Main.getInstance().setShortLink("http://fir.im/"+uploadToRio.uploadTicket.appShort);
 
                     /*****************************************upload icon***********************************************/
                     SearchFile searchFile = new SearchFile(filePath);
-                    if(!binary.icon.isEmpty()){
-                        File iconToUpload = searchFile.query(binary.icon);
-                        CustomMultiPartEntity iconMultipartEntity = new CustomMultiPartEntity(UploadService.this);
-                        // set the api token
-                        iconMultipartEntity.addPart("key", new StringBody(uploadToRio.uploadTicket.iconKey));
-                        iconMultipartEntity.addPart("token", new StringBody(uploadToRio.uploadTicket.iconToken));
-                        iconMultipartEntity.addPart("file", new FileBody(iconToUpload));
+                    try {
+                        if(!binary.icon.isEmpty()){
+                            InputStreamBody iconToUpload = searchFile.query(binary.icon);
+                            CustomMultiPartEntity iconMultipartEntity = new CustomMultiPartEntity(UploadService.this);
+                            // set the api token
+                            iconMultipartEntity.addPart("key", new StringBody(uploadToRio.uploadTicket.iconKey));
+                            iconMultipartEntity.addPart("token", new StringBody(uploadToRio.uploadTicket.iconToken));
+                            iconMultipartEntity.addPart("file", iconToUpload);
 
-                        if (uploadServiceDelegate != null){
-                            // send the full package size
-                            uploadServiceDelegate.onPackageSizeComputed(iconMultipartEntity.getContentLength());
-                        }
-
-                        post.setEntity(iconMultipartEntity);
-
-                        // POST the build
-                        HttpResponse iconResponse = client.execute(post);
-                        HttpEntity iconEntity = iconResponse.getEntity();
-                        String iconResponseString = EntityUtils.toString(iconEntity, "UTF-8");
-                        System.out.println(iconResponseString);
-                        main.getInstance().setTest("kkkkkkkkkkkkkkkkkkk"+iconResponseString);
-                        main.getInstance().setTest("response.getStatusLine().getStatusCode()"+iconResponse.getStatusLine().getStatusCode());
-
-                        JSONObject iconJsonObject = new JSONObject(iconResponseString);
-
-                        if (iconResponse.getStatusLine().getStatusCode() == 200) {
-                            if (uploadServiceDelegate != null) {
-                                // send success upload status
-                               main.getInstance().setTips("Icon upload success");
+                            if (uploadServiceDelegate != null){
+                                // send the full package size
+                                uploadServiceDelegate.onPackageSizeComputed(iconMultipartEntity.getContentLength());
                             }
 
-                        }
-                        main.getInstance().setTest("上传icon完成....");
-                    }
+                            post.setEntity(iconMultipartEntity);
 
+                            // POST the build
+                            HttpResponse iconResponse = client.execute(post);
+                            HttpEntity iconEntity = iconResponse.getEntity();
+                            String iconResponseString = EntityUtils.toString(iconEntity, "UTF-8");
+                            System.out.println(iconResponseString);
+                            Main.getInstance().setTest("kkkkkkkkkkkkkkkkkkk"+iconResponseString);
+                            Main.getInstance().setTest("response.getStatusLine().getStatusCode()"+iconResponse.getStatusLine().getStatusCode());
+
+                            JSONObject iconJsonObject = new JSONObject(iconResponseString);
+
+                            if (iconResponse.getStatusLine().getStatusCode() == 200) {
+                                if (uploadServiceDelegate != null) {
+                                    // send success upload status
+                                    Main.getInstance().setTips("Icon upload success");
+                                }
+
+                            }
+                            Main.getInstance().setTest("上传icon完成....");
+                            searchFile.zipFile.close();
+                        }
+                    }catch (Exception e) {
+                        Utils.postErrorNoticeTOSlack(e);
+                    }
 
                     /*****************************************upload file***********************************************/
                     // get the apk file
@@ -126,8 +132,8 @@ public class UploadService implements CustomMultiPartEntity.ProgressListener {
                     HttpEntity entity = response.getEntity();
                     String responseString = EntityUtils.toString(entity, "UTF-8");
                     System.out.println(responseString);
-                    main.getInstance().setTest("kkkkkkkkkkkkkkkkkkk"+responseString);
-                    main.getInstance().setTest("response.getStatusLine().getStatusCode()"+response.getStatusLine().getStatusCode());
+                    Main.getInstance().setTest("kkkkkkkkkkkkkkkkkkk"+responseString);
+                    Main.getInstance().setTest("response.getStatusLine().getStatusCode()"+response.getStatusLine().getStatusCode());
 
                     JSONObject jsonObject = new JSONObject(responseString);
 
@@ -145,14 +151,14 @@ public class UploadService implements CustomMultiPartEntity.ProgressListener {
                         }
 
                     }
-                    main.getInstance().setTest("上传file完成....");
+                    Main.getInstance().setTest("上传file完成....");
 
 
 
                 } catch (Exception e) {
                     // Ups! error occurred
                     e.printStackTrace();
-                    main.getInstance().setTest("e"+e.getMessage());
+                    Main.getInstance().setTest("e"+e.getMessage());
                     Utils.postErrorNoticeTOSlack(e);
                     if (uploadServiceDelegate != null) {
                         // send failed upload status
