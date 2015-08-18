@@ -34,6 +34,7 @@ public class TimerScanTask  extends TimerTask {
         String md5 = Utils.getMd5(path);
         if(!md5.equals(KeysManager.instance().getMd5())) {
             if("yes".equals(KeysManager.instance().getUploadFlag())){
+               System.out.println("自动检测上传");
                main.getInstance().uploadBuild();
                return;
             }

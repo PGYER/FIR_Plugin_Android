@@ -614,7 +614,7 @@ public class main implements ToolWindowFactory , UploadService.UploadServiceDele
         }else if("yes".equals(KeysManager.instance().getUploadFlag())){
             this.formUploadCB.setSelected(true);
         }else{
-            this.formUploadCB.setSelected(true);
+            this.formUploadCB.setSelected(false);
             KeysManager.instance().setUploadFlag("cancel");
         }
         this.formUpload.setText(document.formUpload);

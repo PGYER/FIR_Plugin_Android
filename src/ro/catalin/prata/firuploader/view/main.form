@@ -318,6 +318,7 @@
                 </constraints>
                 <properties>
                   <text value=""/>
+                  <toolTipText value="自动上传功能，如果选中发现文件改变自己会上传"/>
                 </properties>
               </component>
               <hspacer id="eb448">
@@ -356,6 +357,7 @@
               <font size="20"/>
               <foreground color="-6710887"/>
               <text value="AUTO UPLOAD"/>
+              <toolTipText value="自动上传功能，如果选中发现文件改变自己会上传"/>
             </properties>
           </component>
         </children>
