@@ -562,7 +562,7 @@ public class Main implements ToolWindowFactory , UploadService.UploadServiceDele
 
 
         JBPopupFactory.getInstance()
-                .createHtmlTextBalloonBuilder("上传成功 <a href='"+shortLink.getText()+"'>"+shortLink.getText()+"</a> 打开链接去查看.",
+                .createHtmlTextBalloonBuilder("<p style='font-size:12px;color:black'>fir.im上传成功Y(^_^)Y</p></br><p style='font-size:12px;'> <a style='font-size:12px' href='"+shortLink.getText()+"'>"+shortLink.getText()+"</a> 打开链接去查看.</p>",
                         MessageType.INFO, new HyperlinkListener() {
                     @Override
                     public void hyperlinkUpdate(HyperlinkEvent e) {
@@ -577,7 +577,7 @@ public class Main implements ToolWindowFactory , UploadService.UploadServiceDele
                 .setFadeoutTime(6000)
                 .createBalloon()
                 .show(RelativePoint.getNorthEastOf(statusBar.getComponent()),
-                        Balloon.Position.above);
+                        Balloon.Position.atRight);
     }
     public void browserUrl(String url){
         try {
