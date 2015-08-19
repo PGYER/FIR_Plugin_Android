@@ -577,7 +577,7 @@ public class Main implements ToolWindowFactory , UploadService.UploadServiceDele
 
                     }
                 })
-                .setFadeoutTime(6000)
+                .setFadeoutTime(10000)
                 .setCloseButtonEnabled(true)
                 .createBalloon()
                 .show(point,
