@@ -8,7 +8,7 @@
     </content>
     <orderEntry type="jdk" jdkName="IDEA IU-129.1525" jdkType="IDEA JDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module-library" exported="">
+    <orderEntry type="module-library">
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/libs/commons-codec-1.6.jar!/" />
@@ -17,7 +17,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library" exported="">
+    <orderEntry type="module-library">
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/libs/commons-logging-1.1.1.jar!/" />
@@ -26,7 +26,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library" exported="">
+    <orderEntry type="module-library">
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/libs/fluent-hc-4.2.5.jar!/" />
@@ -35,7 +35,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library" exported="">
+    <orderEntry type="module-library">
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/libs/httpclient-4.2.5.jar!/" />
@@ -44,7 +44,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library" exported="">
+    <orderEntry type="module-library">
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/libs/httpclient-cache-4.2.5.jar!/" />
@@ -53,7 +53,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library" exported="">
+    <orderEntry type="module-library">
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/libs/httpcore-4.2.4.jar!/" />
@@ -62,7 +62,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library" exported="">
+    <orderEntry type="module-library">
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/libs/httpmime-4.2.5.jar!/" />
@@ -71,7 +71,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library" exported="">
+    <orderEntry type="module-library">
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/libs/AXMLPrinter.jar!/" />
@@ -89,6 +89,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="libs" level="project" />
   </component>
 </module>
 

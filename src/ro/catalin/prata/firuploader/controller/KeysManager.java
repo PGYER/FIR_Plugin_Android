@@ -49,8 +49,12 @@ public class KeysManager implements PersistentStateComponent<Element>,Compilatio
     public static final String XML_ROOT_NAME_API_KEY = "ApiKey";
     // xml parsing constant used for the apk file path
     public static final String XML_ROOT_NAME_APK_FILE_PATH = "ApkFilePath";
+    public static final String XML_ROOT_NAME_APK_MD5_VAL = "MD5";
+    public static final String XML_ROOT_NAME_APK_FLAG_VAL = "FLAG";
+    public static final String XML_ROOT_NAME_APK_UPLOAD_FLAG_VAL = "UPLOAD_FLAG";
     public static final String XML_ROOT_NAME_SELECTED_MODULE_NAME = "SelectedModuleName";
     public static final String XML_ROOT_NAME_SELECTED_PROJECT_NAME = "SelectedProjectName";
+
     /**
      * Maximum number of milliseconds since the last compile time before the user can send the build to Test Flight (currently 5 minutes)
      */
@@ -73,6 +77,12 @@ public class KeysManager implements PersistentStateComponent<Element>,Compilatio
      * Project apk file path
      */
     private String apkFilePath;
+
+    private String md5;
+
+    private String uploadFlag;
+
+    private String flag;
     /**
      * This is the user selected module name
      */
@@ -153,6 +163,21 @@ public class KeysManager implements PersistentStateComponent<Element>,Compilatio
             rootTag.addContent(filePathTag);
         }
 
+        if (md5 != null){
+            Element filePathTag = new Element(XML_ROOT_NAME_APK_MD5_VAL).setText(md5);
+            rootTag.addContent(filePathTag);
+        }
+
+        if(uploadFlag != null){
+            Element filePathTag = new Element(XML_ROOT_NAME_APK_UPLOAD_FLAG_VAL).setText(uploadFlag);
+            rootTag.addContent(filePathTag);
+        }
+
+        if (flag != null){
+            Element filePathTag = new Element(XML_ROOT_NAME_APK_FLAG_VAL).setText(flag);
+            rootTag.addContent(filePathTag);
+        }
+
         if (selectedModuleName != null) {
             // set the user selected module
             Element moduleName = new Element(XML_ROOT_NAME_SELECTED_MODULE_NAME).setText(selectedModuleName);
@@ -208,6 +233,18 @@ public class KeysManager implements PersistentStateComponent<Element>,Compilatio
                     // parse the user selected project name
                     selectedProjectName = parseUserSelectedProjectName(rootElement);
 
+                }  else if (rootElement.getName().equals(XML_ROOT_NAME_APK_MD5_VAL)) {
+                    // parse the apk file path
+                    md5 = parseMd5(rootElement);
+
+                } else if (rootElement.getName().equals(XML_ROOT_NAME_APK_UPLOAD_FLAG_VAL)) {
+                    // parse the apk file path
+                    uploadFlag = parseUploadFlag(rootElement);
+
+                }else if (rootElement.getName().equals(XML_ROOT_NAME_APK_FLAG_VAL)) {
+                    // parse the apk file path
+                    flag = parseFlag(rootElement);
+
                 }
 
             }
@@ -250,6 +287,19 @@ public class KeysManager implements PersistentStateComponent<Element>,Compilatio
 
         return element.getText();
 
+    }
+
+    public String parseMd5(Element element){
+        return element.getText();
+    }
+
+
+    public String parseFlag(Element element){
+        return element.getText();
+    }
+
+    public String parseUploadFlag(Element element){
+        return element.getText();
     }
 
     /**
@@ -300,6 +350,31 @@ public class KeysManager implements PersistentStateComponent<Element>,Compilatio
         this.apkFilePath = apkFilePath;
     }
 
+
+    public String getMd5(){
+        return md5;
+    }
+
+    public void setMd5(String m){
+        this.md5 = m;
+    }
+
+    public String getUploadFlag(){
+        return uploadFlag;
+    }
+
+    public void setUploadFlag(String flag){
+        this.uploadFlag = flag;
+    }
+
+    public String getFlag(){
+        return flag;
+    }
+
+
+    public void setFlag(String fl){
+        this.flag = fl;
+    }
     /**
      * Returns the user's selected module name, null if none was saved so far
      *

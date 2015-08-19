@@ -1,7 +1,7 @@
 <idea-plugin version="2">
     <id>fir.im.plug.idea</id>
     <name>fir.im upload</name>
-    <version>1.0</version>
+    <version>1.8</version>
     <vendor email="yh@fir.im" url="http://fir.im">FIR.im</vendor>
 
     <description><![CDATA[
@@ -25,6 +25,26 @@
      <br> - new api doc http://fir.im/docs     <br>
      <br> - catch exception and notice by slack     <br>
      <br> - add internationalization     <br>
+     v1.1 change:
+     <br> - parse apk name     <br>
+     <br> - new api doc http://fir.im/docs     <br>
+     v1.2 change:
+     <br> - upload icon     <br>
+     <br> - new api doc http://fir.im/docs     <br>
+     v1.3 change:
+     <br> -add click link to browser it in internet <br>
+     <br> -add tips <br>
+     v1.4 change:
+     <br> -fix setting path bug<br>
+     <br> -add feedback <br>
+     v1.5 change:
+     <br> - add Automatic inspection tips<br>
+     v1.6 change:
+     <br> - add Automatic inspection checkbox<br>
+     v1.7 change:
+     <br> - finish windows bug<br>
+     v1.8 change:
+     <br> - edit apk parser<br>
       ]]>
     </change-notes>
 
@@ -38,6 +58,7 @@
     <depends>com.intellij.modules.lang</depends>
     <!-- This tells the jetbrains plugin repository that the plugin uses the android jar -->
     <depends>org.jetbrains.android</depends>
+
 
     <application-components>
 
@@ -56,8 +77,8 @@
         <!-- Lets us persist data using the KeyManager -->
         <applicationService serviceImplementation="ro.catalin.prata.firuploader.controller.KeysManager"/>
         <!-- Add your extensions here -->
-        <toolWindow id="FIR.im" secondary="true" anchor="top"  icon="icon.png"
-                    factoryClass="ro.catalin.prata.firuploader.view.main">
+        <toolWindow id="FIR.im" secondary="true" anchor="right"  icon="icon.png"
+                    factoryClass="ro.catalin.prata.firuploader.view.Main">
         </toolWindow>
     </extensions>
 
