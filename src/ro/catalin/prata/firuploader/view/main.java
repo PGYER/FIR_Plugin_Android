@@ -559,7 +559,10 @@ public class Main implements ToolWindowFactory , UploadService.UploadServiceDele
     public void uploadFinishNotice(){
         StatusBar statusBar = WindowManager.getInstance()
                 .getStatusBar(ProjectManager.getInstance().getOpenProjects()[0]);
-
+        JComponent component = statusBar.getComponent();
+        final Rectangle rect = component.getVisibleRect();
+        final Point p = new Point(rect.x + rect.width - 30, rect.y - 30);
+        final RelativePoint point = new RelativePoint(component, p);
 
         JBPopupFactory.getInstance()
                 .createHtmlTextBalloonBuilder("<p style='font-size:12px;color:black'>fir.im上传成功Y(^_^)Y</p></br><p style='font-size:12px;'> <a style='font-size:12px' href='"+shortLink.getText()+"'>"+shortLink.getText()+"</a> 打开链接去查看.</p>",
@@ -575,8 +578,9 @@ public class Main implements ToolWindowFactory , UploadService.UploadServiceDele
                     }
                 })
                 .setFadeoutTime(6000)
+                .setCloseButtonEnabled(true)
                 .createBalloon()
-                .show(RelativePoint.getNorthEastOf(statusBar.getComponent()),
+                .show(point,
                         Balloon.Position.atRight);
     }
     public void browserUrl(String url){
