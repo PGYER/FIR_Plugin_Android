@@ -25,3 +25,7 @@ fir.im upload
 
 自动上传复选框 -> 意思是 当你选择自动上传复选框，会自动检测apk改变时直接上传，取消怎么不会自动上传
 
+
+## 提交反馈
+
+[使用 github issue 即可](https://github.com/FIRHQ/fir_intellig_plugin/issues)
