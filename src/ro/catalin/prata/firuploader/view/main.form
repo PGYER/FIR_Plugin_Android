@@ -347,6 +347,7 @@
               <font size="20"/>
               <foreground color="-6710887"/>
               <text value="CHECK &amp; TIP"/>
+              <toolTipText value="检测文件改变是否提示"/>
             </properties>
           </component>
           <component id="ef691" class="javax.swing.JLabel" binding="formUpload">

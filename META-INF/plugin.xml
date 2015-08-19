@@ -1,7 +1,7 @@
 <idea-plugin version="2">
     <id>fir.im.plug.idea</id>
     <name>fir.im upload</name>
-    <version>1.7</version>
+    <version>1.8</version>
     <vendor email="yh@fir.im" url="http://fir.im">FIR.im</vendor>
 
     <description><![CDATA[
@@ -43,6 +43,8 @@
      <br> - add Automatic inspection checkbox<br>
      v1.7 change:
      <br> - finish windows bug<br>
+     v1.8 change:
+     <br> - edit apk parser<br>
       ]]>
     </change-notes>
 
