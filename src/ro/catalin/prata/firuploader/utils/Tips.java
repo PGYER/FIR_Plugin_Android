@@ -55,7 +55,7 @@ public class Tips {
 
 
         JBPopupFactory.getInstance()
-                .createHtmlTextBalloonBuilder("检测到apk文件改变了还没有上传, <a href='http://fir.im/androidStudio/open'>点击</a>上传吧.</br><a href='http://fir.im/androidStudio/cancel'>取消提示</a>",
+                .createHtmlTextBalloonBuilder("<p style='font-size:12px'>检测到apk文件改变了还没有上传, <a style='font-size:12px' href='http://fir.im/androidStudio/open'>点击</a>上传吧.</p></br><p><a style='font-size:12px' href='http://fir.im/androidStudio/cancel'>取消提示</a></p>",
                         MessageType.INFO, new HyperlinkListener() {
                     @Override
                     public void hyperlinkUpdate(HyperlinkEvent e) {
@@ -72,7 +72,9 @@ public class Tips {
 
                     }
                 })
-                .setFadeoutTime(4000)
+
+                .setFadeoutTime(6000)
+                .setCloseButtonEnabled(true)
                 .createBalloon()
                 .show(RelativePoint.getNorthEastOf(statusBar.getComponent()),
                         Balloon.Position.atRight);

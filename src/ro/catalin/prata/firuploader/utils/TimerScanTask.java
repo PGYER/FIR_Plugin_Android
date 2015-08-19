@@ -48,7 +48,6 @@ public class TimerScanTask  extends TimerTask {
                         Tips.showMD5ChangedUploadTips();
                     }
 //            Main.getInstance().uploadFinishNotice();
-                    //todo: 提示
                 });
             }
         }
