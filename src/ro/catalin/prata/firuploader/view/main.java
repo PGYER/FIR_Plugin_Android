@@ -502,7 +502,6 @@ public class Main implements ToolWindowFactory , UploadService.UploadServiceDele
                 uploadBtn.setEnabled(true);
                 uploadBtn.setText(document.uploadBtn);
                 Main.getInstance().tips.setText("File upload success");
-                //todo: 添加计时器
                 KeysManager.instance().setMd5(Utils.getMd5(Main.getInstance().binary.filePath));
                 changeLogTa.setText("");
                 uploadFinishNotice();
