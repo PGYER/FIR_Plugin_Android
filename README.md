@@ -2,7 +2,8 @@ fir.im upload
 ---
 > 一键上传应用到fir.im
 
-> 插件线上地址 [fir.im upload](https://plugins.jetbrains.com/plugin/7640?pr=androidstudio)
+> jetbrains插件线上地址 [fir.im upload](https://plugins.jetbrains.com/plugin/7640?pr=androidstudio)
+> 插件下载地址 [fir.im-upload-1.9](http://firweb.fir.im/fir_plugin_1.9.0.zip)
 
 ## 使用入门
 ### 从安装入手
