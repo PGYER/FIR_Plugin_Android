@@ -15,7 +15,7 @@ fir.im upload
 
 ### 使用说明
 
-打开插件先设置[api_token](http://fir.im/user/info)
+打开插件先设置api_token,查看[api_token](http://fir.im/user/info)
 
 插件会自动检测当前功能的apk路径（如果没有检测到apk则可以手动设置apk路径）
 
