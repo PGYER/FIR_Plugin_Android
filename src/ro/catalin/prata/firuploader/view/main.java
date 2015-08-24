@@ -65,6 +65,7 @@ public class Main implements ToolWindowFactory , UploadService.UploadServiceDele
     private JCheckBox formTipCB;
     private JLabel formUpload;
     private JCheckBox formUploadCB;
+    private JLabel qrCodeLabel;
     private ToolWindow toolWindow;
     private String appVersion;
     private String appVersionCode;
@@ -73,6 +74,7 @@ public class Main implements ToolWindowFactory , UploadService.UploadServiceDele
     private String appShort;
     public static Main m;
     private String apkAbsolutePath;
+    private QrCode qrCode;
     public Binary binary;
     public ro.catalin.prata.firuploader.Model.Document document;
     private Color COLOR_DARK_PURPLE = new Color(37, 172, 201);
@@ -83,6 +85,7 @@ public class Main implements ToolWindowFactory , UploadService.UploadServiceDele
             KeysManager.instance().setUploadFlag("cancel");
         }
         m = Main.this;
+        qrCode = new QrCode();
         binary = new Binary();
         Main.getInstance().setTest("start");
         Main.getInstance().setTest("end");
@@ -120,11 +123,11 @@ public class Main implements ToolWindowFactory , UploadService.UploadServiceDele
                 // update the apk path
                 Module module = ModulesManager.instance().getModuleByName((String) projectCombo.getSelectedItem());
                 String filePath = ModulesManager.instance().getAndroidApkPath(module);
-                if(filePath == null)
+                if (filePath == null)
                     filePath = "";
                 // the file was selected so add it to the text field
-                File file = new File(filePath) ;
-                if(!file.exists()  || filePath.toLowerCase().indexOf(".apk")<0)    {
+                File file = new File(filePath);
+                if (!file.exists() || filePath.toLowerCase().indexOf(".apk") < 0) {
                     filePath = "";
                 }
                 apkAbsolutePath = filePath;
@@ -137,6 +140,7 @@ public class Main implements ToolWindowFactory , UploadService.UploadServiceDele
 
             }
         });
+
         setupValuesOnUI();
         settingBtn.addActionListener(new ActionListener() {
             @Override
@@ -189,6 +193,36 @@ public class Main implements ToolWindowFactory , UploadService.UploadServiceDele
             public void mouseClicked(MouseEvent mouseEvent) {
                 //To change body of implemented methods use File | Settings | File Templates.
                 browserUrl(Main.getInstance().shortLink.getText());
+            }
+
+            @Override
+            public void mousePressed(MouseEvent mouseEvent) {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent mouseEvent) {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent mouseEvent) {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            @Override
+            public void mouseExited(MouseEvent mouseEvent) {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+        });
+
+        qrCodeLabel.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent mouseEvent) {
+                //To change body of implemented methods use File | Settings | File Templates.
+                if (!shortLink.getText().isEmpty()){
+                    qrCode.show();
+                }
             }
 
             @Override
@@ -288,6 +322,7 @@ public class Main implements ToolWindowFactory , UploadService.UploadServiceDele
         this.appShort = sh;
         shortLink.setText(sh);
         shortLink.repaint();
+        qrCode.setUri(sh);
     }
     public static Main getInstance(){
 
