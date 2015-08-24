@@ -1,7 +1,7 @@
 <idea-plugin version="2">
     <id>fir.im.plug.idea</id>
     <name>fir.im upload</name>
-    <version>1.8</version>
+    <version>1.9</version>
     <vendor email="yh@fir.im" url="http://fir.im">FIR.im</vendor>
 
     <description><![CDATA[
@@ -45,6 +45,8 @@
      <br> - finish windows bug<br>
      v1.8 change:
      <br> - edit apk parser<br>
+     v1.9 change:
+     <br> - change tip font-size & fix any bug<br>
       ]]>
     </change-notes>
 
