@@ -17,6 +17,11 @@ fir.im upload
 
 插件会在Views -> tool windows显示 FIR.im
 
+### 具体安装步骤
+fir.im upload 安装
+方式一、 Android studio-> preferences -> plugins -> 搜索fir.im upload
+方式二、在地址 （http://firweb.fir.im/fir_plugin_1.9.0.zip）下载包进行本地安装，步骤 Android studio-> preferences -> plugins -> install plugin from disk..
+
 ### 使用说明
 
 打开插件先设置api_token,查看[api_token](http://fir.im/user/info)
