@@ -6,6 +6,12 @@ fir.im upload
 
 > 插件下载地址 [fir.im-upload-1.9](http://firweb.fir.im/fir_plugin_1.9.0.zip) (下载之后使用本地安装)
 
+
++--------->install from marke+--------->Android studio+->preferenc+--->plugins+--->search fir.im upload
+|                                                                                                      
+|                                                                                                      
++--------->install from disk+---------->download    
+
 ## 使用入门
 ### 从安装入手
 
