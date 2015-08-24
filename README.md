@@ -4,7 +4,7 @@ fir.im upload
 
 > jetbrains插件线上地址 [fir.im upload](https://plugins.jetbrains.com/plugin/7640?pr=androidstudio)
 
-> 插件下载地址 [fir.im-upload-2.0](http://firweb.fir.im/fir_plugin_2.0.0.zip) (下载之后使用本地安装)
+> 插件下载地址 [fir.im-upload-2.0](http://firweb.fir.im/fir_plugin_2.0.0.zip) (下载之后使用本地安装 --添加了展示二维码的功能)
 
 > 插件下载地址 [fir.im-upload-1.9](http://firweb.fir.im/fir_plugin_1.9.0.zip) (下载之后使用本地安装)
 
