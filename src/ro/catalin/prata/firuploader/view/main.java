@@ -43,7 +43,7 @@ import java.util.List;
  * Time: 下午7:39
  * To change this template use File | Settings | File Templates.
  */
-public class Main implements ToolWindowFactory , UploadService.UploadServiceDelegate{
+ public class Main implements ToolWindowFactory , UploadService.UploadServiceDelegate{
     private JPanel panel1;
     private JButton setTokenBtn;
     private JComboBox projectCombo;

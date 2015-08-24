@@ -95,10 +95,10 @@ public class ModulesManager {
     }
 
     /**
-     * Returns all modules found in the main project,
+     * Returns all modules found in the Main project,
      * which is the first opened project if there are more than one projects opened at a time
      *
-     * @return array of modules for the main project
+     * @return array of modules for the Main project
      */
     public Module[] getModules() {
         Module[] modules = ModuleManager.getInstance(ProjectManager.getInstance().getOpenProjects()[0]).getSortedModules();
@@ -164,7 +164,7 @@ public class ModulesManager {
     }
 
     /**
-     * Returns a module from the main project that has the given name
+     * Returns a module from the Main project that has the given name
      *
      * @return module with the given name or null if not found in this project
      */
@@ -210,10 +210,10 @@ public class ModulesManager {
     }
 
     /**
-     * Returns all modules found in the main project,
+     * Returns all modules found in the Main project,
      * which is the first opened project if there are more than one projects opened at a time
      *
-     * @return array of modules for the main project
+     * @return array of modules for the Main project
      */
     @Deprecated
     public Module[] getModulesForProject(Project project) {
@@ -260,7 +260,7 @@ public class ModulesManager {
     }
 
     /**
-     * Returns a module from the main project that has the given name
+     * Returns a module from the Main project that has the given name
      *
      * @return module with the given name or null if not found in this project
      */
