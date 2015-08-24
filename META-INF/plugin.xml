@@ -1,7 +1,7 @@
 <idea-plugin version="2">
     <id>fir.im.plug.idea</id>
     <name>fir.im upload</name>
-    <version>1.9</version>
+    <version>2.0</version>
     <vendor email="yh@fir.im" url="http://fir.im">FIR.im</vendor>
 
     <description><![CDATA[
@@ -47,6 +47,8 @@
      <br> - edit apk parser<br>
      v1.9 change:
      <br> - change tip font-size & fix any bug<br>
+     v2.0 change:
+     <br> - add qrCode<br>
       ]]>
     </change-notes>
 
