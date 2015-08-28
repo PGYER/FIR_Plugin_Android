@@ -13,7 +13,7 @@ fir.im upload
 ## 使用入门
 ### 从安装入手
 
-在plugins插件市场搜索fir.im upload安装就可以了:现在支持平台 androidstudio & Intellig Idea
+在plugins插件市场搜索fir.im upload安装就可以了:现在支持平台 Android Studio & IntelliJ IDEA
 
 安装之后 重启对应的开发环境
 
