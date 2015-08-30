@@ -12,7 +12,6 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 import ro.catalin.prata.firuploader.Model.UploadTicket;
-import ro.catalin.prata.firuploader.Model.UploadToken;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -30,8 +29,6 @@ public class UploadToRio {
     public static final String FIR_UPLOAD_TOKEN_URL = "http://fir.im/api/v2/info/" ;
     public static final String FIR_UPDATE_APP_INFO = "http://fir.im/api/v2/app/"  ;
     public static final String FIR_BASE_URL = "http://api.fir.im" ;
-
-    public UploadToken uploadToken ;
 
     public void setVersionId(String versionId) {
         this.versionId = versionId;
