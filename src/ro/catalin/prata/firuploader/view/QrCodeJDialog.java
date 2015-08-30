@@ -13,12 +13,12 @@ import java.net.URL;
  * Time: 下午4:39
  * To change this template use File | Settings | File Templates.
  */
-public class QrCode extends JDialog {
+public class QrCodeJDialog extends JDialog {
     public String uri = "";
     JPanel panel;
     int screenWidth;
     int screenHeight;
-    public QrCode(){
+    public QrCodeJDialog(){
 
         super();
         getScreen();
@@ -37,11 +37,11 @@ public class QrCode extends JDialog {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                        System.out.print("............"+QrCode.this.uri);
-                        QrCode.this.setSize(200,200);
+                        System.out.print("............"+QrCodeJDialog.this.uri);
+                        QrCodeJDialog.this.setSize(200,200);
                         Image image = null;
                         try {
-                            URL url = new URL("http://qr.liantu.com/api.php?w=200&text="+QrCode.this.uri);
+                            URL url = new URL("http://qr.liantu.com/api.php?w=200&text="+QrCodeJDialog.this.uri);
                             image = ImageIO.read(url);
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -49,10 +49,10 @@ public class QrCode extends JDialog {
                         ImageIcon im = new ImageIcon(image);
                         JLabel label = new JLabel("", im, JLabel.CENTER);
                         if(panel != null)
-                            QrCode.this.remove(panel);
+                            QrCodeJDialog.this.remove(panel);
                         panel = new JPanel(new BorderLayout());
                         panel.add( label, BorderLayout.CENTER );
-                        QrCode.this.add(panel) ;
+                        QrCodeJDialog.this.add(panel) ;
 
                     }
         }).start();
