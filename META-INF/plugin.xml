@@ -81,7 +81,7 @@
         <!-- Lets us persist data using the KeyManager -->
         <applicationService serviceImplementation="ro.catalin.prata.firuploader.controller.KeysManager"/>
         <!-- Add your extensions here -->
-        <toolWindow id="FIR.im" secondary="true" anchor="right"  icon="icon.png"
+        <toolWindow id="FIR.im" secondary="true" anchor="right"  icon="images/icon.png"
                     factoryClass="ro.catalin.prata.firuploader.view.Main">
         </toolWindow>
     </extensions>
