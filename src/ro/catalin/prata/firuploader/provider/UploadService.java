@@ -3,7 +3,6 @@ package ro.catalin.prata.firuploader.provider;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.InputStreamBody;
@@ -15,12 +14,9 @@ import ro.catalin.prata.firuploader.Model.Binary;
 import ro.catalin.prata.firuploader.Model.CustomMultiPartEntity;
 
 import java.io.File;
-import java.io.InputStream;
 import java.nio.charset.Charset;
 
 import ro.catalin.prata.firuploader.utils.SearchFile;
-import  ro.catalin.prata.firuploader.utils.UploadToFIR;
-import ro.catalin.prata.firuploader.Model.UploadToken;
 import ro.catalin.prata.firuploader.utils.UploadToRio;
 import ro.catalin.prata.firuploader.utils.Utils;
 import ro.catalin.prata.firuploader.view.Main;
@@ -87,8 +83,6 @@ public class UploadService implements CustomMultiPartEntity.ProgressListener {
                             HttpEntity iconEntity = iconResponse.getEntity();
                             String iconResponseString = EntityUtils.toString(iconEntity, "UTF-8");
                             System.out.println(iconResponseString);
-                            Main.getInstance().setTest("kkkkkkkkkkkkkkkkkkk"+iconResponseString);
-                            Main.getInstance().setTest("response.getStatusLine().getStatusCode()"+iconResponse.getStatusLine().getStatusCode());
 
                             JSONObject iconJsonObject = new JSONObject(iconResponseString);
 
@@ -131,10 +125,6 @@ public class UploadService implements CustomMultiPartEntity.ProgressListener {
                     HttpResponse response = client.execute(post);
                     HttpEntity entity = response.getEntity();
                     String responseString = EntityUtils.toString(entity, "UTF-8");
-                    System.out.println(responseString);
-                    Main.getInstance().setTest("kkkkkkkkkkkkkkkkkkk"+responseString);
-                    Main.getInstance().setTest("response.getStatusLine().getStatusCode()"+response.getStatusLine().getStatusCode());
-
                     JSONObject jsonObject = new JSONObject(responseString);
 
                     if (response.getStatusLine().getStatusCode() == 200) {
