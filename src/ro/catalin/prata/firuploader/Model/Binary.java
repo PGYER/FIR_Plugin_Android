@@ -67,6 +67,7 @@ public class Binary {
             this.bundleId = apkMeta.getPackageName();
             this.name = apkMeta.getLabel();
             this.icon = apkMeta.getIcon().getPath();
+            apkParser.close();
         } catch (IOException e) {
 
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
