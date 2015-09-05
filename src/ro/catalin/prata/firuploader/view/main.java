@@ -21,7 +21,6 @@ import ro.catalin.prata.firuploader.Model.Binary;
 import ro.catalin.prata.firuploader.controller.KeysManager;
 import ro.catalin.prata.firuploader.controller.ModulesManager;
 import ro.catalin.prata.firuploader.provider.UploadService;
-import ro.catalin.prata.firuploader.utils.AnalysisApk;
 import ro.catalin.prata.firuploader.utils.TimerScan;
 import ro.catalin.prata.firuploader.utils.Utils;
 
@@ -43,7 +42,7 @@ import java.util.List;
  * Time: 下午7:39
  * To change this template use File | Settings | File Templates.
  */
-public class Main implements ToolWindowFactory , UploadService.UploadServiceDelegate{
+ public class Main implements ToolWindowFactory , UploadService.UploadServiceDelegate{
     private JPanel panel1;
     private JButton setTokenBtn;
     private JComboBox projectCombo;
@@ -74,7 +73,7 @@ public class Main implements ToolWindowFactory , UploadService.UploadServiceDele
     private String appShort;
     public static Main m;
     private String apkAbsolutePath;
-    private QrCode qrCode;
+    private QrCodeJDialog qrCode;
     public Binary binary;
     public ro.catalin.prata.firuploader.Model.Document document;
     private Color COLOR_DARK_PURPLE = new Color(37, 172, 201);
@@ -85,7 +84,7 @@ public class Main implements ToolWindowFactory , UploadService.UploadServiceDele
             KeysManager.instance().setUploadFlag("cancel");
         }
         m = Main.this;
-        qrCode = new QrCode();
+        qrCode = new QrCodeJDialog();
         binary = new Binary();
         Main.getInstance().setTest("start");
         Main.getInstance().setTest("end");
