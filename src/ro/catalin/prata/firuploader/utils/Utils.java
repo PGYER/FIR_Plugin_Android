@@ -81,7 +81,7 @@ public class Utils {
                     ArrayList<BasicNameValuePair> postParameters = new ArrayList<BasicNameValuePair>();
                     JSONObject obj = new JSONObject();
                     obj.append("text",msg) ;
-                    postParameters.add(new BasicNameValuePair("payload", obj.toString()));
+                    postParameters.add(new BasicNameValuePair("payload", obj.toString().replace("[","").replace("]","")));
                     httppost.setEntity(new UrlEncodedFormEntity(postParameters,"UTF-8"));
                 } catch (UnsupportedEncodingException e) {
                     Utils.postErrorNoticeTOSlack(e);
