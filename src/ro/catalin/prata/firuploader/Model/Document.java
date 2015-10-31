@@ -21,6 +21,7 @@ public class Document {
     public String uploadBtn;
     public String formTip;
     public String formUpload;
+    public String cancelUpload;
     public Document(){
         if(Utils.isZh()){
             formHeader = "fir.im 一键上传";
@@ -34,6 +35,7 @@ public class Document {
             uploadBtn = "上传" ;
             formTip = "检测提示";
             formUpload = "自动上传";
+            cancelUpload = "取消上传";
         } else{
             formHeader = "fir.im upload";
             formToken = "api_token";
@@ -46,6 +48,7 @@ public class Document {
             uploadBtn = "upload" ;
             formTip = "check & tip";
             formUpload = "auto upload";
+            cancelUpload = "cancel upload";
         }
 
     }
