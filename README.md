@@ -4,9 +4,9 @@ fir.im upload
 
 > jetbrains插件线上地址 [fir.im upload](https://plugins.jetbrains.com/plugin/7640?pr=androidstudio)
 
-> 插件下载地址 [fir.im-upload-2.3](http://121.201.63.30/Fir_Android_Plugin_2.3.zip) (下载之后使用本地安装 --添加上传取消功能)
+> 插件下载地址 [fir.im-upload-2.3](http://121.201.63.30/android/Fir_Android_Plugin_2.3.zip) (下载之后使用本地安装 --添加上传取消功能)
 
-> 插件下载地址 [fir.im-upload-2.2](http://121.201.63.30/Fir_Android_Plugin_2.2.zip) (下载之后使用本地安装 --添加手动中英文切换)
+> 插件下载地址 [fir.im-upload-2.2](http://121.201.63.30/android/Fir_Android_Plugin_2.2.zip) (下载之后使用本地安装 --添加手动中英文切换)
 
 > 插件下载地址 [fir.im-upload-2.0](http://firweb.fir.im/fir_plugin_2.0.0.zip) (下载之后使用本地安装 --添加了展示二维码的功能)
 
