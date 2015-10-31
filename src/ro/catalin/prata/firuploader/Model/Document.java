@@ -21,6 +21,10 @@ public class Document {
     public String uploadBtn;
     public String formTip;
     public String formUpload;
+    public String cancelUpload;
+    public String languageLabel;
+    public String chineseBtn;
+    public String englishBtn;
     public Document(){
         if(Utils.isZh()){
             formHeader = "fir.im 一键上传";
@@ -34,18 +38,26 @@ public class Document {
             uploadBtn = "上传" ;
             formTip = "检测提示";
             formUpload = "自动上传";
+            cancelUpload = "取消上传";
+            languageLabel = "语言";
+            chineseBtn = "中文";
+            englishBtn = "英文";
         } else{
             formHeader = "fir.im upload";
             formToken = "api_token";
             formProject = "Project";
-            formPath = "file path";
-            formLog = "changelog";
-            formLink = "short";
-            setTokenBtn = "setting";
-            settingBtn = "choose path";
-            uploadBtn = "upload" ;
-            formTip = "check & tip";
-            formUpload = "auto upload";
+            formPath = "File path";
+            formLog = "Changelog";
+            formLink = "Short";
+            setTokenBtn = "Setting";
+            settingBtn = "Choose path";
+            uploadBtn = "Upload" ;
+            formTip = "Check & tip";
+            formUpload = "Auto upload";
+            cancelUpload = "cancel upload";
+            languageLabel = "Language";
+            chineseBtn = "Chinese";
+            englishBtn = "English";
         }
 
     }

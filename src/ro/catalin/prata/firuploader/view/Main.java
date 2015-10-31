@@ -65,6 +65,10 @@ import java.util.List;
     private JLabel formUpload;
     private JCheckBox formUploadCB;
     private JLabel qrCodeLabel;
+    private JButton cancelUploadButton;
+    private JLabel languageLabel;
+    private JButton chinese;
+    private JButton english;
     private ToolWindow toolWindow;
     private String appVersion;
     private String appVersionCode;
@@ -74,6 +78,7 @@ import java.util.List;
     public static Main m;
     private String apkAbsolutePath;
     private QrCodeJDialog qrCode;
+    private UploadService uploadService;
     public Binary binary;
     public ro.catalin.prata.firuploader.Model.Document document;
     private Color COLOR_DARK_PURPLE = new Color(37, 172, 201);
@@ -90,11 +95,46 @@ import java.util.List;
         Main.getInstance().setTest("end");
         progressBar.setVisible(false);
         tips.setVisible(false);
+        uploadService = new UploadService();
         uploadBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 updateBuildVersionFields();
                 performUploadValidation();
 
+            }
+        });
+        chinese.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                KeysManager.instance().setLanguage("chinese");
+                initComponent();
+            }
+        });
+
+        english.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                //To change body of implemented methods use File | Settings | File Templates.
+                KeysManager.instance().setLanguage("english");
+                initComponent();
+            }
+        });
+        cancelUploadButton.setVisible(false);
+        cancelUploadButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                //To change body of implemented methods use File | Settings | File Templates.
+                uploadService.post.abort();
+                uploadService.uploadServiceDelegate = null;
+                uploadService = null;  //销毁对象暂停上传
+                uploadService = new UploadService();
+                progressBar.setVisible(false);
+                uploadBtn.setEnabled(true);
+                uploadBtn.setText(document.uploadBtn);
+                changeLogTa.setText("");
+                Main.getInstance().tips.setVisible(false);
+                Main.getInstance().tips.repaint();
+                cancelUploadButton.setVisible(false);
             }
         });
         setTokenBtn.addActionListener(new ActionListener() {
@@ -387,8 +427,9 @@ import java.util.List;
         uploadBtn.setText("uploading...");
         tips.setText("uploading....");
 
+        cancelUploadButton.setVisible(true);
         // upload the build
-        new UploadService().sendBuild(null, apkAbsolutePath, KeysManager.instance().getApiKey(),
+        uploadService.sendBuild(null, apkAbsolutePath, KeysManager.instance().getApiKey(),
                 binary,
                 changeLogTa.getText(),
                 Main.this);
@@ -519,6 +560,7 @@ import java.util.List;
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
 
+                cancelUploadButton.setVisible(false);
                 if (!finishedSuccessful) {
 
                     Messages.showErrorDialog("上传失败！有问题请联系dev@fir.im", "上传失败！有问题请联系dev@fir.im");
@@ -640,6 +682,10 @@ import java.util.List;
         this.setTokenBtn.setText(document.setTokenBtn);
         this.uploadBtn.setText(document.uploadBtn);
         this.formTip.setText(document.formTip);
+        this.languageLabel.setText(document.languageLabel);
+        this.cancelUploadButton.setText(document.cancelUpload);
+        this.chinese.setText(document.chineseBtn);
+        this.english.setText(document.englishBtn);
         if("cancel".equals(KeysManager.instance().getFlag())){
             this.formTipCB.setSelected(false);
         }else{

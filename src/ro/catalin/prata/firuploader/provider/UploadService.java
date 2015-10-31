@@ -30,8 +30,10 @@ public class UploadService implements CustomMultiPartEntity.ProgressListener {
     /**
      * Used to notify the status of the upload action
      */
-    private UploadServiceDelegate uploadServiceDelegate;
-
+    public UploadServiceDelegate uploadServiceDelegate;
+    public CustomMultiPartEntity iconMultipartEntity;
+    public CustomMultiPartEntity multipartEntity;
+    public HttpPost post;
     /**
      * 向FIR上传文件
      * @param url
@@ -55,7 +57,7 @@ public class UploadService implements CustomMultiPartEntity.ProgressListener {
                 try {
                     HttpClient client;
                     client = new DefaultHttpClient();
-                    HttpPost post;
+
                     post = new HttpPost(url);
 
                     Main.getInstance().setShortLink("http://fir.im/"+uploadToRio.uploadTicket.appShort);
@@ -65,7 +67,7 @@ public class UploadService implements CustomMultiPartEntity.ProgressListener {
                     try {
                         if(!binary.icon.isEmpty()){
                             InputStreamBody iconToUpload = searchFile.query(binary.icon);
-                            CustomMultiPartEntity iconMultipartEntity = new CustomMultiPartEntity(UploadService.this);
+                            iconMultipartEntity = new CustomMultiPartEntity(UploadService.this);
                             // set the api token
                             iconMultipartEntity.addPart("key", new StringBody(uploadToRio.uploadTicket.iconKey));
                             iconMultipartEntity.addPart("token", new StringBody(uploadToRio.uploadTicket.iconToken));
@@ -74,6 +76,8 @@ public class UploadService implements CustomMultiPartEntity.ProgressListener {
                             if (uploadServiceDelegate != null){
                                 // send the full package size
                                 uploadServiceDelegate.onPackageSizeComputed(iconMultipartEntity.getContentLength());
+                            } else{
+                                return ;
                             }
 
                             post.setEntity(iconMultipartEntity);
@@ -90,6 +94,8 @@ public class UploadService implements CustomMultiPartEntity.ProgressListener {
                                 if (uploadServiceDelegate != null) {
                                     // send success upload status
                                     Main.getInstance().setTips("Icon upload success");
+                                } else{
+                                    return;
                                 }
 
                             }
@@ -104,7 +110,7 @@ public class UploadService implements CustomMultiPartEntity.ProgressListener {
                     // get the apk file
                     File fileToUpload = new File(filePath);
 
-                    CustomMultiPartEntity multipartEntity = new CustomMultiPartEntity(UploadService.this);
+                    multipartEntity = new CustomMultiPartEntity(UploadService.this);
                     // set the api token
                     multipartEntity.addPart("key", new StringBody(uploadToRio.uploadTicket.binaryKey));
                     multipartEntity.addPart("token", new StringBody(uploadToRio.uploadTicket.binaryToken));

@@ -14,6 +14,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
+import ro.catalin.prata.firuploader.controller.KeysManager;
 import ro.catalin.prata.firuploader.view.Main;
 
 import java.io.*;
@@ -131,11 +132,23 @@ public class Utils {
     public static boolean isZh(){
        Locale locale = Locale.getDefault();
        String language = locale.getLanguage();
-       if(language.equals("zh")){
-           return true;
-       }else{
-           return false ;
+       if(KeysManager.instance().getLanguage() == null) {
+           if(language.equals("zh")){
+               return true;
+           }else{
+               return false ;
+           }
        }
+       if(!KeysManager.instance().getLanguage().isEmpty()) {
+           if(KeysManager.instance().getLanguage().equals("chinese")){
+               return true;
+           }else{
+               return false;
+           }
+       }
+
+        return true;
+
     }
 
     /**
