@@ -66,6 +66,9 @@ import java.util.List;
     private JCheckBox formUploadCB;
     private JLabel qrCodeLabel;
     private JButton cancelUploadButton;
+    private JLabel languageLabel;
+    private JButton chinese;
+    private JButton english;
     private ToolWindow toolWindow;
     private String appVersion;
     private String appVersionCode;
@@ -98,6 +101,22 @@ import java.util.List;
                 updateBuildVersionFields();
                 performUploadValidation();
 
+            }
+        });
+        chinese.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                KeysManager.instance().setLanguage("chinese");
+                initComponent();
+            }
+        });
+
+        english.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                //To change body of implemented methods use File | Settings | File Templates.
+                KeysManager.instance().setLanguage("english");
+                initComponent();
             }
         });
         cancelUploadButton.setVisible(false);
@@ -663,7 +682,10 @@ import java.util.List;
         this.setTokenBtn.setText(document.setTokenBtn);
         this.uploadBtn.setText(document.uploadBtn);
         this.formTip.setText(document.formTip);
+        this.languageLabel.setText(document.languageLabel);
         this.cancelUploadButton.setText(document.cancelUpload);
+        this.chinese.setText(document.chineseBtn);
+        this.english.setText(document.englishBtn);
         if("cancel".equals(KeysManager.instance().getFlag())){
             this.formTipCB.setSelected(false);
         }else{
